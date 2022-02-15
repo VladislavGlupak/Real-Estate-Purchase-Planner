@@ -1,10 +1,10 @@
 import os
 import requests
-from dotenv import load_dotenv
-import alpaca_trade_api as tradeapi
 import streamlit as st
 import pandas as pd
 import numpy as np
+from dotenv import load_dotenv
+import alpaca_trade_api as tradeapi
 
 # web page name
 st.set_page_config(page_title="Real Estate Purchase Planner in California", page_icon=":eyeglasses:")
