@@ -69,4 +69,5 @@ df_portfolio = alpaca.get_barset(
 ).df
 
 # Display sample data
+st.markdown('### Data frame')
 df_portfolio
