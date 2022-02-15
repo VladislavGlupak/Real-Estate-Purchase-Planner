@@ -1,3 +1,7 @@
+import os
+import requests
+from dotenv import load_dotenv
+import alpaca_trade_api as tradeapi
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -32,3 +36,37 @@ st.write('Portfolio Type for Current Holdings - ', pf_type_hold)
 st.write('You entered the desired price $: - ', total_price)
 st.write('Down Payment % - ', down_payment)
 st.write('Nuber of years - ', years)
+
+# Load .env environment variables
+load_dotenv()
+
+# Set Alpaca API key and secret
+alpaca_api_key = os.getenv("ALPACA_API_KEY")
+alpaca_secret_key = os.getenv("ALPACA_SECRET_KEY")
+
+# Create the Alpaca API object
+alpaca = tradeapi.REST(
+    alpaca_api_key,
+    alpaca_secret_key,
+    api_version="v2")
+
+# Format current date as ISO format
+start_date = pd.Timestamp("2020-06-01", tz="America/New_York").isoformat()
+end_date = pd.Timestamp("2020-06-05", tz="America/New_York").isoformat()
+
+# Set the tickers
+tickers = ["FB", "TWTR"]
+
+# Set timeframe to one day ('1D') for the Alpaca API
+timeframe = "1D"
+
+# Get current closing prices for FB and TWTR
+df_portfolio = alpaca.get_barset(
+    tickers,
+    timeframe,
+    start = start_date,
+    end = end_date
+).df
+
+# Display sample data
+df_portfolio
