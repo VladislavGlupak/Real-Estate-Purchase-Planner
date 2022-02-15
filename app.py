@@ -13,9 +13,9 @@ st.sidebar.markdown("# Portfolio")
 
 # define the inputs
 cont_monthly = st.sidebar.slider('Monthly Contribution to Investments?', 0, 10000, 5000) # min, max, default
-pf_type_cont = st.sidebar.radio('Portfolio Type for Contributions?', ['Low risk', 'Middle risk', 'High risk'])
+pf_type_cont = st.sidebar.radio('Portfolio Type for Contributions?', ['Low risk', 'Medium risk', 'High risk'])
 curr_holdings = st.sidebar.slider('Current Holdings of Portfolio?', 0, 10000, 5000) # min, max, default
-pf_type_hold = st.sidebar.radio('Portfolio Type for Current Holdings?', ['Low risk', 'Middle risk', 'High risk'])
+pf_type_hold = st.sidebar.radio('Portfolio Type for Current Holdings?', ['Low risk', 'Medium risk', 'High risk'])
 
 # desired house
 st.sidebar.markdown("# Desired house")
