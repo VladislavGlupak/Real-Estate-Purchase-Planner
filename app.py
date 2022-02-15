@@ -5,6 +5,8 @@ import pandas as pd
 import numpy as np
 from dotenv import load_dotenv
 import alpaca_trade_api as tradeapi
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 # web page name
 st.set_page_config(page_title="Real Estate Purchase Planner in California", page_icon=":eyeglasses:")
@@ -26,7 +28,7 @@ st.sidebar.markdown("# Desired house")
 
 total_price = st.sidebar.slider('Insert a desired prise of house', 0, 10000000, 5000000)
 down_payment = st.sidebar.slider('Down Payment %', 0, 100, 50)
-years = st.sidebar.slider('How many yesrs?', 0, 50, 25) # min, max, default
+num_years = st.sidebar.slider('How many yesrs?', 0, 50, 25) # min, max, default
 
 st.markdown('### Your entered data:')
 st.write('Monthly Contribution to Investments, $ - ', cont_monthly)
@@ -35,7 +37,7 @@ st.write('Current Holdings of Portfolio, $ - ', curr_holdings)
 st.write('Portfolio Type for Current Holdings - ', pf_type_hold)
 st.write('You entered the desired price $: - ', total_price)
 st.write('Down Payment % - ', down_payment)
-st.write('Nuber of years - ', years)
+st.write('Nuber of years - ', num_years)
 
 # Load .env environment variables
 load_dotenv()
@@ -50,9 +52,15 @@ alpaca = tradeapi.REST(
     alpaca_secret_key,
     api_version="v2")
 
+# minus years
+now = datetime.now()
+now_to_string = now.strftime("%Y-%m-%d")
+years_ago = now - relativedelta(years=num_years)
+years_ago_to_string = years_ago.strftime("%Y-%m-%d")
+
 # Format current date as ISO format
-start_date = pd.Timestamp("2020-06-01", tz="America/New_York").isoformat()
-end_date = pd.Timestamp("2020-06-05", tz="America/New_York").isoformat()
+start_date = pd.Timestamp(years_ago_to_string, tz="America/New_York").isoformat()
+end_date = pd.Timestamp(now_to_string, tz="America/New_York").isoformat()
 
 # Set the tickers
 tickers = ["FB", "TWTR"]
