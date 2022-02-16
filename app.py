@@ -37,7 +37,7 @@ st.write('Current Holdings of Portfolio, $ - ', curr_holdings)
 st.write('Portfolio Type for Current Holdings - ', pf_type_hold)
 st.write('You entered the desired price $: - ', total_price)
 st.write('Down Payment % - ', down_payment)
-st.write('Nuber of years - ', num_years)
+st.write('Number of years - ', num_years)
 
 # Load .env environment variables
 load_dotenv()
@@ -77,6 +77,7 @@ stocks_portfolio = alpaca.get_barset(
 ).df
 
 # checking the timeframe start and end dates
+st.markdown('### Timeframe:')
 st.write('Start date: ', start_date)
 st.write('End date: ', end_date)
 
