@@ -44,15 +44,12 @@ st.write('You entered the desired price $: - ', total_price)
 st.write('Down Payment % - ', down_payment)
 st.write('Number of years - ', num_years)
 
-# Set Alpaca API key and secret
-# Display sample data
-st.markdown('### Alpaca keys:')
-alpaca_api_key = st.text_input('ALPACA_API_KEY') #os.getenv("ALPACA_API_KEY")
-alpaca_secret_key = st.text_input('ALPACA_SECRET_KEY') #os.getenv("ALPACA_SECRET_KEY")
+# Load .env environment variables
+load_dotenv()
 
-if not alpaca_api_key or not alpaca_secret_key:
-    st.warning("Please input an Alpaca API keys...")
-    st.stop()
+# Set Alpaca API key and secret
+alpaca_api_key = os.getenv("ALPACA_API_KEY")
+alpaca_secret_key = os.getenv("ALPACA_SECRET_KEY")
 
 # Create the Alpaca API object
 alpaca = tradeapi.REST(
@@ -71,7 +68,7 @@ start_date = pd.Timestamp(years_ago_to_string, tz="America/New_York").isoformat(
 end_date = pd.Timestamp(now_to_string, tz="America/New_York").isoformat()
 
 # Set the tickers
-tickers = ["SPY", "AGG"]
+tickers = ["ETH", "SPY"]
 
 # Set timeframe to one day ('1D') for the Alpaca API
 timeframe = "1D"
@@ -81,7 +78,8 @@ stocks_portfolio = alpaca.get_barset(
     tickers,
     timeframe,
     start = start_date,
-    end = end_date
+    end = end_date,
+    limit = 1000
 ).df
 
 # checking the timeframe start and end dates
