@@ -1,3 +1,5 @@
+#   Magda's branch
+
 import os
 import requests
 import streamlit as st
@@ -92,3 +94,4 @@ st.write('End date: ', end_date)
 # Display sample data
 st.markdown('### Data frame - Stocks')
 stocks_portfolio
+
