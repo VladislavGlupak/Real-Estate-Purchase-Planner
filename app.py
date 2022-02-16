@@ -63,19 +63,23 @@ start_date = pd.Timestamp(years_ago_to_string, tz="America/New_York").isoformat(
 end_date = pd.Timestamp(now_to_string, tz="America/New_York").isoformat()
 
 # Set the tickers
-tickers = ["FB", "TWTR"]
+tickers = ["SPY", "AGG"]
 
 # Set timeframe to one day ('1D') for the Alpaca API
 timeframe = "1D"
 
 # Get current closing prices for FB and TWTR
-df_portfolio = alpaca.get_barset(
+stocks_portfolio = alpaca.get_barset(
     tickers,
     timeframe,
     start = start_date,
     end = end_date
 ).df
 
+# checking the timeframe start and end dates
+st.write('Start date: ', start_date)
+st.write('End date: ', end_date)
+
 # Display sample data
-st.markdown('### Data frame')
-df_portfolio
+st.markdown('### Data frame - Stocks')
+stocks_portfolio
