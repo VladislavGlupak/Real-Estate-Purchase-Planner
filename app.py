@@ -46,7 +46,7 @@ alpaca_api_key = st.text_input('ALPACA_API_KEY') #os.getenv("ALPACA_API_KEY")
 alpaca_secret_key = st.text_input('ALPACA_SECRET_KEY') #os.getenv("ALPACA_SECRET_KEY")
 
 if not alpaca_api_key or not alpaca_secret_key:
-    st.warning("Please input an Alpaca's keys...")
+    st.warning("Please input an Alpaca API keys...")
     st.stop()
 
 # Create the Alpaca API object
