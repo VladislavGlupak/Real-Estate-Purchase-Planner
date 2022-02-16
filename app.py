@@ -10,7 +10,7 @@ from dateutil.relativedelta import relativedelta
 from PIL import Image
 
 # web page name
-st.set_page_config(page_title="Real Estate Purchase Planner in California", page_icon=":eyeglasses:")
+st.set_page_config(page_title="Real Estate Purchase Planner in California", page_icon=":house:")
 st.image(Image.open('pics/picture.jpg'))
 
 # app title
