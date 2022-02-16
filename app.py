@@ -39,12 +39,15 @@ st.write('You entered the desired price $: - ', total_price)
 st.write('Down Payment % - ', down_payment)
 st.write('Number of years - ', num_years)
 
-# Load .env environment variables
-load_dotenv()
-
 # Set Alpaca API key and secret
-alpaca_api_key = os.getenv("ALPACA_API_KEY")
-alpaca_secret_key = os.getenv("ALPACA_SECRET_KEY")
+# Display sample data
+st.markdown('### Alpaca keys:')
+alpaca_api_key = st.text_input('ALPACA_API_KEY') #os.getenv("ALPACA_API_KEY")
+alpaca_secret_key = st.text_input('ALPACA_SECRET_KEY') #os.getenv("ALPACA_SECRET_KEY")
+
+if not alpaca_api_key or not alpaca_secret_key:
+    st.warning("Please input an Alpaca's keys...")
+    st.stop()
 
 # Create the Alpaca API object
 alpaca = tradeapi.REST(
