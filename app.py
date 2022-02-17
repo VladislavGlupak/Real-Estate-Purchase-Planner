@@ -186,7 +186,6 @@ if result >= total_price:
     st.markdown(f'### Congratulations! You will be able to buy a house with desired price ${total_price} in {num_years} years. :)))')
     st.markdown(f'### You will have ${result: .2f}.')
     st.markdown('This information is for informational purposes only.')
-    st.balloons()
 else:
     st.markdown('### Result:')
     st.markdown(f'### Sorry! You need more time or higher portfolio to buy a house in {num_years} years. :(((')
