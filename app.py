@@ -173,13 +173,13 @@ st.markdown('---')
 
 
 
-
-st.write('Savings: ', savings)
-st.write('Savings: ', savings)
-st.write('Savings: ', savings)
-st.write('Savings: ', savings)
-st.write('Savings: ', savings)
-st.write('Savings: ', savings)
+# for testing
+st.write('')
+st.write('')
+st.write('')
+st.write('')
+st.write('')
+st.write('')
 st.write('Cumulative return: ', cum_return)
 st.write('Result without intitial crypto amount: ', result)
 st.write('Result with intitial crypto amount: ', result_with_crypto)
