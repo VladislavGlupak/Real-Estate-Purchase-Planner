@@ -106,17 +106,17 @@ btc_value = curr_btc * btc_price
 eth_value = curr_eth * eth_price
 
 # calculating stocks and bonds values
-#stocks_today = alpaca.get_barset(
-#    tickers_stocks,
-#    '1D',
-#    start = pd.Timestamp(now_to_string, tz="America/New_York").isoformat(),
-#    end = pd.Timestamp(now_to_string, tz="America/New_York").isoformat()
-#).df
-#agg_close_price = float(stocks_today["AGG"]["close"])
-#spy_close_price = float(stocks_today["SPY"]["close"])
-#spy_value = curr_spy * spy_close_price
-#agg_value = curr_agg * agg_close_price
-#total_stocks_bonds = agg_value + spy_value
+stocks_today = alpaca.get_barset(
+    tickers_stocks,
+    '1D',
+    start = pd.Timestamp(now_to_string, tz="America/New_York").isoformat(),
+    end = pd.Timestamp(now_to_string, tz="America/New_York").isoformat()
+).df
+agg_close_price = stocks_today.iloc[0,3]
+spy_close_price = stocks_today.iloc[0,8]
+spy_value = curr_spy * spy_close_price
+agg_value = curr_agg * agg_close_price
+total_stocks_bonds = agg_value + spy_value
 
 # Get closing prices for SPY and AGG
 stocks = alpaca.get_barset(
@@ -162,10 +162,10 @@ concat_df = concat_df.dropna() # drop N/A
 simulation = MCSimulation(
     portfolio_data=concat_df,
     weights=weight,
-    num_simulation=50,
-    num_trading_days=252*num_years
+    num_simulation=5,
+    num_trading_days=12*num_years
 )
-simulation.portfolio_data.head()
+
 simulation.calc_cumulative_return() # run calculating of cumulative return
 
 # MC summary statistics
@@ -174,7 +174,7 @@ MC_summary_statistics = simulation.summarize_cumulative_return()
 # Calculate if user can afford the house after desired number of years
 sum_savings = savings + ((cont_monthly * 12) * num_years) # sum of savings
 
-cum_return = (btc_value + eth_value) * MC_summary_statistics[1] # cumulative return
+cum_return = (btc_value + eth_value + total_stocks_bonds) * MC_summary_statistics[1] # cumulative return
 
 result = sum_savings + cum_return # result without crypto
 result_with_crypto = sum_savings + cum_return + btc_value + eth_value # results with crypto value
