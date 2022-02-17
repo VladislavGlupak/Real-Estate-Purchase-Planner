@@ -171,13 +171,19 @@ else:
 
 st.markdown('---')
 
-# checking the timeframe start and end dates
-#st.markdown('### Timeframe:')
-#st.write('Start date: ', start_date)
-#st.write('End date: ', end_date)
 
+
+
+st.write('Savings: ', savings)
+st.write('Savings: ', savings)
+st.write('Savings: ', savings)
+st.write('Savings: ', savings)
+st.write('Savings: ', savings)
 st.write('Savings: ', savings)
 st.write('Cumulative return: ', cum_return)
 st.write('Result without intitial crypto amount: ', result)
 st.write('Result with intitial crypto amount: ', result_with_crypto)
 st.write(f'Type of {pf_risk_type} portfolio: ', weight)
+st.markdown('### Timeframe:')
+st.write('Start date: ', start_date)
+st.write('End date: ', end_date)
