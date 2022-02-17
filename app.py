@@ -106,6 +106,18 @@ eth_price = eth_response["data"]["1027"]["quotes"]["USD"]["price"]
 btc_value = curr_btc * btc_price
 eth_value = curr_eth * eth_price
 
+# calculating stocks and bonds values
+stocks_today = alpaca.get_barset(
+    tickers_stocks,
+    '1D',
+    start = pd.Timestamp(now_to_string, tz="America/New_York").isoformat(),
+    end = pd.Timestamp(now_to_string, tz="America/New_York").isoformat()
+).df
+
+spy_value = curr_spy * float(stocks_today["SPY"]["close"])
+agg_value = curr_agg * float(stocks_today["AGG"]["close"])
+total_stocks_bonds = agg_value + spy_value
+
 # Get closing prices for SPY and AGG
 stocks = alpaca.get_barset(
     tickers_stocks,
@@ -162,7 +174,7 @@ MC_summary_statistics = simulation.summarize_cumulative_return()
 # Calculate if user can afford the house after desired number of years
 sum_savings = savings + ((cont_monthly * 12) * num_years) # sum of savings
 
-cum_return = (btc_value + eth_value) * MC_summary_statistics[1] # cumulative return
+cum_return = (btc_value + eth_value + total_stocks_bonds) * MC_summary_statistics[1] # cumulative return
 
 result = sum_savings + cum_return # result without crypto
 result_with_crypto = sum_savings + cum_return + btc_value + eth_value # results with crypto value
