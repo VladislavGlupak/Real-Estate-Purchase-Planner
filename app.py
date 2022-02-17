@@ -150,13 +150,14 @@ simulation = MCSimulation(
 MC_summary_statistics = simulation.summarize_cumulative_return()
 
 # Calculate if user can afford the house after desired number of years
-sum_savings = savings + ((cont_monthly * 12) * num_years)
+sum_savings = savings + ((cont_monthly * 12) * num_years) # sum of savings
 
-cum_return = (btc_value + eth_value) * MC_summary_statistics[1]
+cum_return = (btc_value + eth_value) * MC_summary_statistics[1] # cumulative return
 
-result = sum_savings + cum_return
-result_with_crypto = sum_savings + cum_return + btc_value + eth_value
+result = sum_savings + cum_return # result without crypto
+result_with_crypto = sum_savings + cum_return + btc_value + eth_value # results with crypto value
 
+# check if user will able to buy the house in desired time period
 if result >= total_price:
     st.markdown('Result (Without intial value of crypto)')
     st.markdown(f'Congratulations! You will be able to buy a house in {num_years} years. :)))')
@@ -167,6 +168,7 @@ else:
 
 st.markdown('---')
 
+# check if user will able to buy the house in desired time period (with initial crypto value)
 if result_with_crypto >= total_price:
     st.markdown('Result')
     st.markdown(f'Congratulations! You will be able to buy a house in {num_years} years. :)))')
