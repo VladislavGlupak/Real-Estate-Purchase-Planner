@@ -145,6 +145,7 @@ simulation = MCSimulation(
     num_simulation=500,
     num_trading_days=12*num_years
 )
+simulation.calc_cumulative_return()
 
 # MC summary statistics
 MC_summary_statistics = simulation.summarize_cumulative_return()
