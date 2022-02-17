@@ -73,7 +73,6 @@ medium_risk = [.10, 0.10, .40, 0.40]
 high_risk = [.30, 0.30, .20, 0.20]
 
 # Set portfolio risk type
-pf_risk_type = "Low risk"
 weight = []
 if pf_risk_type == "Low risk":
     weight = low_risk
