@@ -30,9 +30,10 @@ curr_eth = int(st.sidebar.text_input('Number of Ethereum in your portfolio', '1'
 curr_spy = int(st.sidebar.text_input('Number of S&P500 in your portfolio', '1'))
 curr_agg = int(st.sidebar.text_input('Number of AGG in your portfolio', '1'))
 
-#if (pf_risk_type == "Low risk") and (curr_btc !=0 or curr_eth !=0):
-#    st.markdown('BTC and ETH should be ZERO!!!')
-#    exit()
+if (pf_risk_type == "Low risk") and (curr_btc !=0 or curr_eth !=0):
+    st.markdown('BTC and ETH should be ZERO!!!')
+    st.markdown('')
+    exit()
 
 # desired house
 st.sidebar.markdown("# Desired house")
@@ -162,8 +163,8 @@ concat_df = concat_df.dropna() # drop N/A
 simulation = MCSimulation(
     portfolio_data=concat_df,
     weights=weight,
-    num_simulation=5,
-    num_trading_days=12*num_years
+    num_simulation=50,
+    num_trading_days=252*num_years
 )
 
 simulation.calc_cumulative_return() # run calculating of cumulative return
@@ -213,6 +214,7 @@ st.write('Cumulative return: ', cum_return)
 st.write('Result without intitial crypto amount: ', result)
 st.write('Result with intitial crypto amount: ', result_with_crypto)
 st.write(f'Type of {pf_risk_type} portfolio: ', weight)
+st.write(spy_value, agg_value, total_stocks_bonds)
 st.markdown('### Timeframe:')
 st.write('Start date: ', start_date)
 st.write('End date: ', end_date)
