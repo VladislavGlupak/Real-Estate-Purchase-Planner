@@ -24,18 +24,18 @@ st.sidebar.markdown("# Portfolio")
 
 # define the inputs
 savings = int(st.sidebar.text_input('Savings, $', '1000'))
-cont_monthly = int(st.sidebar.slider('Monthly Contribution to Investments, $', 0, 10000, 5000, step=100)) # min, max, default
+cont_monthly = int(st.sidebar.slider('Monthly Contribution to Investments, $', 0, 10000, 1000, step=100)) # min, max, default
 pf_risk_type = st.sidebar.radio('Portfolio Type?', ['Low risk', 'Medium risk', 'High risk'])
-curr_btc = int(st.sidebar.text_input('Number of BTC in your portfolio', '10'))
-curr_eth = int(st.sidebar.text_input('Number of Ethereum in your portfolio', '10'))
-curr_spy = int(st.sidebar.text_input('Number of S&P500 in your portfolio', '10'))
-curr_agg = int(st.sidebar.text_input('Number of AGG in your portfolio', '10'))
+curr_btc = int(st.sidebar.text_input('Number of BTC in your portfolio', '1'))
+curr_eth = int(st.sidebar.text_input('Number of Ethereum in your portfolio', '1'))
+curr_spy = int(st.sidebar.text_input('Number of S&P500 in your portfolio', '1'))
+curr_agg = int(st.sidebar.text_input('Number of AGG in your portfolio', '1'))
 
 # desired house
 st.sidebar.markdown("# Desired house")
 
-total_price = int(st.sidebar.text_input('Desired house price $', '1000000'))
-num_years = int(st.sidebar.slider('How many yesrs?', 0, 50, 25, step=1)) # min, max, default
+total_price = int(st.sidebar.text_input('Desired house price $', '2000000'))
+num_years = int(st.sidebar.slider('How many yesrs?', 0, 50, 10, step=1)) # min, max, default
 
 if savings >= total_price:
     st.markdown('## You have anougth money!')
