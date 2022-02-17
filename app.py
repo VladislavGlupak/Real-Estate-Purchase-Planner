@@ -63,147 +63,152 @@ alpaca = tradeapi.REST(
 btc_url = "https://api.alternative.me/v2/ticker/Bitcoin/?convert=USD"
 eth_url = "https://api.alternative.me/v2/ticker/Ethereum/?convert=USD"
 
-# Calculate dates
-now = datetime.now() # end date
-now_to_string = now.strftime("%Y-%m-%d") # convert end date to string
-years_ago = now - relativedelta(years=num_years) # calculate start date
-years_ago_to_string = years_ago.strftime("%Y-%m-%d") # convert end date to string
+with st.spinner('### Please wait...'):
 
-# Format current date as ISO format
-start_date = pd.Timestamp(years_ago_to_string, tz="America/New_York").isoformat()
-end_date = pd.Timestamp(now_to_string, tz="America/New_York").isoformat()
+    # Calculate dates
+    now = datetime.now() # end date
+    now_to_string = now.strftime("%Y-%m-%d") # convert end date to string
+    years_ago = now - relativedelta(years=num_years) # calculate start date
+    years_ago_to_string = years_ago.strftime("%Y-%m-%d") # convert end date to string
 
-# Set the tickers (Alpaca's API standart)
-tickers_stocks = ["SPY", "AGG"]
-tickers_crypto = ["BTCUSD", "ETHUSD"]
+    # Format current date as ISO format
+    start_date = pd.Timestamp(years_ago_to_string, tz="America/New_York").isoformat()
+    end_date = pd.Timestamp(now_to_string, tz="America/New_York").isoformat()
 
-# Portfolio types
-#Low risk = 100% stocks (SPY, AGG)
-#Medium risk = 80% stocks (SPY, AGG), 20% crypto (ETH, BTC)
-#High risk = 40% stocks (SPY, AGG), 60% crypto (ETH, BTC)
+    # Set the tickers (Alpaca's API standart)
+    tickers_stocks = ["SPY", "AGG"]
+    tickers_crypto = ["BTCUSD", "ETHUSD"]
 
-low_risk = [.00, .00, .50, .50]
-medium_risk = [.10, 0.10, .40, 0.40]
-high_risk = [.30, 0.30, .20, 0.20]
+    # Portfolio types
+    #Low risk = 100% stocks (SPY, AGG)
+    #Medium risk = 80% stocks (SPY, AGG), 20% crypto (ETH, BTC)
+    #High risk = 40% stocks (SPY, AGG), 60% crypto (ETH, BTC)
 
-# Set portfolio risk type
-weight = []
-if pf_risk_type == "Low risk":
-    weight = low_risk
-if pf_risk_type == "Medium risk":
-    weight = medium_risk
-if pf_risk_type == "High risk":
-    weight = high_risk
+    low_risk = [.00, .00, .50, .50]
+    medium_risk = [.10, 0.10, .40, 0.40]
+    high_risk = [.30, 0.30, .20, 0.20]
 
-# Using the Python requests library, make an API call to access the current price of BTC and Eth
-btc_response = requests.get(btc_url).json()
-eth_response = requests.get(eth_url).json()
+    # Set portfolio risk type
+    weight = []
+    if pf_risk_type == "Low risk":
+        weight = low_risk
+    if pf_risk_type == "Medium risk":
+        weight = medium_risk
+    if pf_risk_type == "High risk":
+        weight = high_risk
 
-# Navigate the BTC response object to access the current price of BTC and Eth
-btc_price = btc_response["data"]["1"]["quotes"]["USD"]["price"]
-eth_price = eth_response["data"]["1027"]["quotes"]["USD"]["price"]
+    # Using the Python requests library, make an API call to access the current price of BTC and Eth
+    btc_response = requests.get(btc_url).json()
+    eth_response = requests.get(eth_url).json()
 
-# Compute the current value of the BTC holding 
-btc_value = curr_btc * btc_price
-eth_value = curr_eth * eth_price
+    # Navigate the BTC response object to access the current price of BTC and Eth
+    btc_price = btc_response["data"]["1"]["quotes"]["USD"]["price"]
+    eth_price = eth_response["data"]["1027"]["quotes"]["USD"]["price"]
 
-# calculating stocks and bonds values
-stocks_today = alpaca.get_barset(
-    tickers_stocks,
-    '1D',
-    start = pd.Timestamp(now_to_string, tz="America/New_York").isoformat(),
-    end = pd.Timestamp(now_to_string, tz="America/New_York").isoformat()
-).df
-agg_close_price = stocks_today.iloc[0,3]
-spy_close_price = stocks_today.iloc[0,8]
-spy_value = curr_spy * spy_close_price
-agg_value = curr_agg * agg_close_price
-total_stocks_bonds = agg_value + spy_value
+    # Compute the current value of the BTC holding 
+    btc_value = curr_btc * btc_price
+    eth_value = curr_eth * eth_price
 
-# Get closing prices for SPY and AGG
-stocks = alpaca.get_barset(
-    tickers_stocks,
-    '1D',
-    start = start_date,
-    end = end_date,
-    limit = 1000
-).df
+    # calculating stocks and bonds values
+    stocks_today = alpaca.get_barset(
+        tickers_stocks,
+        '1D',
+        start = pd.Timestamp(now_to_string, tz="America/New_York").isoformat(),
+        end = pd.Timestamp(now_to_string, tz="America/New_York").isoformat()
+    ).df
+    agg_close_price = stocks_today.iloc[0,3]
+    spy_close_price = stocks_today.iloc[0,8]
+    spy_value = curr_spy * spy_close_price
+    agg_value = curr_agg * agg_close_price
+    total_stocks_bonds = agg_value + spy_value
 
-# Get closing prices for BTC and ETH
-btc = alpaca.get_crypto_bars(
-    tickers_crypto[0],
-    TimeFrame.Day,
-    start=start_date,
-    end=end_date,
-    limit=1000
-).df
+    # Get closing prices for SPY and AGG
+    stocks = alpaca.get_barset(
+        tickers_stocks,
+        '1D',
+        start = start_date,
+        end = end_date,
+        limit = 1000
+    ).df
 
-eth = alpaca.get_crypto_bars(
-    tickers_crypto[1],
-    TimeFrame.Day,
-    start=start_date,
-    end=end_date,
-    limit=1000
-).df
+    # Get closing prices for BTC and ETH
+    btc = alpaca.get_crypto_bars(
+        tickers_crypto[0],
+        TimeFrame.Day,
+        start=start_date,
+        end=end_date,
+        limit=1000
+    ).df
 
-# Formatting and concat all dataframes
-btc = btc.drop(columns=['trade_count','exchange', 'vwap'])
-eth = eth.drop(columns=['trade_count','exchange', 'vwap'])
+    eth = alpaca.get_crypto_bars(
+        tickers_crypto[1],
+        TimeFrame.Day,
+        start=start_date,
+        end=end_date,
+        limit=1000
+    ).df
 
-btc = pd.concat([btc], keys=['BTC'], axis=1) # add layer
-eth = pd.concat([eth], keys=['ETH'], axis=1)
+    # Formatting and concat all dataframes
+    btc = btc.drop(columns=['trade_count','exchange', 'vwap'])
+    eth = eth.drop(columns=['trade_count','exchange', 'vwap'])
 
-stocks = stocks.reset_index(drop=True) # reset index and drop index column
-btc = btc.reset_index(drop=True)
-eth = eth.reset_index(drop=True)
+    btc = pd.concat([btc], keys=['BTC'], axis=1) # add layer
+    eth = pd.concat([eth], keys=['ETH'], axis=1)
 
-concat_df = pd.concat([btc, eth, stocks], verify_integrity=True, axis=1) # concatinate all dfs
-concat_df = concat_df.dropna() # drop N/A
+    stocks = stocks.reset_index(drop=True) # reset index and drop index column
+    btc = btc.reset_index(drop=True)
+    eth = eth.reset_index(drop=True)
 
-# Run Monte Carlo simulation for df c
-simulation = MCSimulation(
-    portfolio_data=concat_df,
-    weights=weight,
-    num_simulation=50,
-    num_trading_days=252*num_years
-)
+    concat_df = pd.concat([btc, eth, stocks], verify_integrity=True, axis=1) # concatinate all dfs
+    concat_df = concat_df.dropna() # drop N/A
 
-simulation.calc_cumulative_return() # run calculating of cumulative return
+    # Run Monte Carlo simulation for df c
+    simulation = MCSimulation(
+        portfolio_data=concat_df,
+        weights=weight,
+        num_simulation=50,
+        num_trading_days=252*num_years
+    )
 
-# MC summary statistics
-MC_summary_statistics = simulation.summarize_cumulative_return()
+    simulation.calc_cumulative_return() # run calculating of cumulative return
 
-# Calculate if user can afford the house after desired number of years
-sum_savings = savings + ((cont_monthly * 12) * num_years) # sum of savings
+    # MC summary statistics
+    MC_summary_statistics = simulation.summarize_cumulative_return()
 
-cum_return = (btc_value + eth_value + total_stocks_bonds) * MC_summary_statistics[1] # cumulative return
+    # Calculate if user can afford the house after desired number of years
+    sum_savings = savings + ((cont_monthly * 12) * num_years) # sum of savings
 
-result = sum_savings + cum_return # result without crypto
+    cum_return = (btc_value + eth_value + total_stocks_bonds) * MC_summary_statistics[1] # cumulative return
 
-# check if user will able to buy the house in desired time period
-if result >= total_price:
-    st.markdown('### Result:')
-    st.markdown(f'### Congratulations! You will be able to buy a house with desired price ${total_price} in {num_years} years. :)))')
-    st.markdown(f'### You will have ${result: .2f}.')
-    st.markdown('This information is for informational purposes only.')
-else:
-    st.markdown('### Result:')
-    st.markdown(f'### Sorry! You need more time or higher portfolio to buy a house in {num_years} years. :(((')
-    st.markdown(f'### You will have ${result: .2f}.')
-    st.markdown('This information is for informational purposes only.')
-st.markdown('---')
+    result = sum_savings + cum_return # result without crypto
 
-# for testing
-st.write('')
-st.write('')
-st.write('')
-st.write('')
-st.write('')
-st.write('## --- For testing ---')
-st.write('Cumulative return: ', cum_return)
-st.write('Result without intitial crypto amount: ', result)
-st.write(f'Type of {pf_risk_type} portfolio: ', weight)
-st.write(spy_value, agg_value, total_stocks_bonds)
-st.markdown('### Timeframe:')
-st.write('Start date: ', start_date)
-st.write('End date: ', end_date)
+    # check if user will able to buy the house in desired time period
+    if result >= total_price:
+        st.markdown('### Result:')
+        st.markdown(f'### Congratulations! You will be able to buy a house with desired price ${total_price} in {num_years} years. :)))')
+        st.markdown(f'### You will have ${result: .2f}.')
+        st.markdown('This information is for informational purposes only.')
+    else:
+        st.markdown('### Result:')
+        st.markdown(f'### Sorry! You need more time or higher portfolio to buy a house in {num_years} years. :(((')
+        st.markdown(f'### You will have ${result: .2f}.')
+        st.markdown('This information is for informational purposes only.')
+    st.markdown('---')
+
+
+        
+
+    # for testing
+    st.write('')
+    st.write('')
+    st.write('')
+    st.write('')
+    st.write('')
+    st.write('## --- For testing ---')
+    st.write('Cumulative return: ', cum_return)
+    st.write('Result without intitial crypto amount: ', result)
+    st.write(f'Type of {pf_risk_type} portfolio: ', weight)
+    st.write(spy_value, agg_value, total_stocks_bonds)
+    st.markdown('### Timeframe:')
+    st.write('Start date: ', start_date)
+    st.write('End date: ', end_date)
