@@ -73,6 +73,7 @@ end_date = pd.Timestamp(now_to_string, tz="America/New_York").isoformat()
 
 # Set the tickers (Alpaca's API standart)
 tickers_stocks = ["SPY", "AGG"]
+tickers_crypto = ["BTCUSD", "ETHUSD"]
 
 # Portfolio types
 #Low risk = 100% stocks (SPY, AGG)
