@@ -1,4 +1,5 @@
 import os
+from pydoc import describe
 import requests
 import streamlit as st
 import pandas as pd
@@ -182,7 +183,7 @@ result = sum_savings + cum_return # result without crypto
 # check if user will able to buy the house in desired time period
 if result >= total_price:
     st.markdown('### Result:')
-    st.markdown(f'### Congratulations! You will be able to buy a house in {num_years} years. :)))')
+    st.markdown(f'### Congratulations! You will be able to buy a house with desired price ${total_price} in {num_years} years. :)))')
     st.markdown('This information is for informational purposes only and does not constitute recommendations.')
     st.balloons()
 else:
