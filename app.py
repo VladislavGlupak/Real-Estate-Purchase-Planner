@@ -1,3 +1,4 @@
+from ast import Break
 import os
 import requests
 import streamlit as st
@@ -35,6 +36,10 @@ st.sidebar.markdown("# Desired house")
 
 total_price = int(st.sidebar.text_input('Desired house price $', '1000000'))
 num_years = int(st.sidebar.slider('How many yesrs?', 0, 50, 25, step=1)) # min, max, default
+
+if savings >= total_price:
+    st.markdown('## You have anougth money!')
+    exit()
 
 # Load .env environment variables
 load_dotenv()
@@ -145,12 +150,12 @@ simulation = MCSimulation(
 MC_summary_statistics = simulation.summarize_cumulative_return()
 
 # Calculate if user can afford the house after desired number of years
-savings = savings + ((cont_monthly * 12) * num_years)
+sum_savings = savings + ((cont_monthly * 12) * num_years)
 
 cum_return = (btc_value + eth_value) * MC_summary_statistics[1]
 
-result = savings + cum_return
-result_with_crypto = savings + cum_return + btc_value + eth_value
+result = sum_savings + cum_return
+result_with_crypto = sum_savings + cum_return + btc_value + eth_value
 
 if result >= total_price:
     st.markdown('Result (Without intial value of crypto)')
