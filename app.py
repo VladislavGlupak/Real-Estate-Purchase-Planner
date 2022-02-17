@@ -155,6 +155,7 @@ result_with_crypto = savings + cum_return + btc_value + eth_value
 if result >= total_price:
     st.markdown('Result (Without intial value of crypto)')
     st.markdown(f'Congratulations! You will be able to buy a house in {num_years} years. :)))')
+    st.balloons()
 else:
     st.markdown('Result (Without intial value of crypto)')
     st.markdown(f'Sorry! You need more time or higher portfolio to buy a house in {num_years} years. :(((')
