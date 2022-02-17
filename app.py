@@ -146,7 +146,7 @@ concat_df = concat_df.dropna() # drop N/A
 simulation = MCSimulation(
     portfolio_data=concat_df,
     weights=weight,
-    num_simulation=500,
+    num_simulation=50,
     num_trading_days=252*num_years
 )
 simulation.portfolio_data.head()
