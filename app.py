@@ -25,8 +25,8 @@ st.sidebar.markdown("# Portfolio")
 savings = int(st.sidebar.text_input('current savings, $', '1000'))
 cont_monthly = int(st.sidebar.slider('Monthly contribution to savings, $', 0, 10000, 1000, step=100)) # min, max, default
 pf_risk_type = st.sidebar.radio('Portfolio Type?', ['Low risk', 'Medium risk', 'High risk'])
-curr_btc = int(st.sidebar.text_input('Number of BTC in your portfolio', '1'))
-curr_eth = int(st.sidebar.text_input('Number of Ethereum in your portfolio', '1'))
+curr_btc = int(st.sidebar.text_input('Number of BTC in your portfolio', '0'))
+curr_eth = int(st.sidebar.text_input('Number of Ethereum in your portfolio', '0'))
 curr_spy = int(st.sidebar.text_input('Number of S&P500 in your portfolio', '1'))
 curr_agg = int(st.sidebar.text_input('Number of AGG in your portfolio', '1'))
 
