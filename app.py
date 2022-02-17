@@ -68,9 +68,9 @@ tickers_stocks = ["SPY", "AGG"]
 tickers_crypto = ["BTCUSD", "ETHUSD"]
 
 # Portfolio types
-low_risk = [.50, .50, .00, .00]
-medium_risk = [.40, 0.40, .10, 0.10]
-high_risk = [.20, 0.20, .30, 0.30]
+low_risk = [.00, .00, .50, .50]
+medium_risk = [.10, 0.10, .40, 0.40]
+high_risk = [.30, 0.30, .20, 0.20]
 
 # Set portfolio risk type
 pf_risk_type = "Low risk"
@@ -151,13 +151,23 @@ savings = savings + ((cont_monthly * 12) * num_years)
 cum_return = (btc_value + eth_value) * MC_summary_statistics[1]
 
 result = savings + cum_return
+result_with_crypto = savings + cum_return + btc_value + eth_value
 
 if result >= total_price:
+    st.markdown('Result (Without intial value of crypto)')
     st.markdown(f'Congratulations! You will be able to buy a house in {num_years} years. :)))')
 else:
+    st.markdown('Result (Without intial value of crypto)')
     st.markdown(f'Sorry! You need more time or higher portfolio to buy a house in {num_years} years. :(((')
 
+st.markdown('---')
 
+if result_with_crypto >= total_price:
+    st.markdown('Result')
+    st.markdown(f'Congratulations! You will be able to buy a house in {num_years} years. :)))')
+else:
+    st.markdown('Result')
+    st.markdown(f'Sorry! You need more time or higher portfolio to buy a house in {num_years} years. :(((')
 
 st.markdown('---')
 
@@ -168,4 +178,6 @@ st.markdown('---')
 
 st.write('Savings: ', savings)
 st.write('Cumulative return: ', cum_return)
-st.write('Result: ', result)
+st.write('Result without intitial crypto amount: ', result)
+st.write('Result without intitial crypto amount: ', result_with_crypto)
+st.write(f'Type of {pf_risk_type} portfolio: ', weight)
