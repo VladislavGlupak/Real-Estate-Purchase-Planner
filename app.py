@@ -31,9 +31,9 @@ curr_eth = int(st.sidebar.text_input('Number of Ethereum in your portfolio', '1'
 curr_spy = int(st.sidebar.text_input('Number of S&P500 in your portfolio', '1'))
 curr_agg = int(st.sidebar.text_input('Number of AGG in your portfolio', '1'))
 
-if (pf_risk_type == "Low risk") and (curr_btc !=0 or curr_eth !=0):
-    st.markdown('BTC and ETH should be ZERO!!!')
-    exit()
+#if (pf_risk_type == "Low risk") and (curr_btc !=0 or curr_eth !=0):
+#    st.markdown('BTC and ETH should be ZERO!!!')
+#    exit()
 
 # desired house
 st.sidebar.markdown("# Desired house")
