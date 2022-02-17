@@ -146,7 +146,7 @@ simulation = MCSimulation(
 MC_summary_statistics = simulation.summarize_cumulative_return()
 
 # Calculate if user can afford the house after desired number of years
-savings = (cont_monthly * 12) * num_years
+savings = savings + ((cont_monthly * 12) * num_years)
 
 cum_return = (btc_value + eth_value) * MC_summary_statistics[1]
 
