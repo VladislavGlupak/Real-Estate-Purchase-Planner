@@ -147,8 +147,9 @@ simulation = MCSimulation(
     portfolio_data=concat_df,
     weights=weight,
     num_simulation=500,
-    num_trading_days=12*num_years
+    num_trading_days=252*num_years
 )
+simulation.portfolio_data.head()
 simulation.calc_cumulative_return() # run calculating of cumulative return
 
 # MC summary statistics
