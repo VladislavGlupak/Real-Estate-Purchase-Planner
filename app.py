@@ -206,7 +206,6 @@ with st.spinner('### Please wait...'):
     st.write('')
     st.write('## --- For testing ---')
     st.write('Cumulative return: ', cum_return)
-    st.write('Result without intitial crypto amount: ', result)
     st.write(f'Type of {pf_risk_type} portfolio: ', weight)
     st.write(spy_value, agg_value, total_stocks_bonds)
     st.markdown('### Timeframe:')
