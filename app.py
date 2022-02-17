@@ -23,8 +23,8 @@ st.markdown('---')
 st.sidebar.markdown("# Portfolio")
 
 # define the inputs
-savings = int(st.sidebar.text_input('current savings, $', '1000'))
-cont_monthly = int(st.sidebar.slider('Monthly contribution to savings, $', 0, 10000, 1000, step=100)) # min, max, default
+savings = int(st.sidebar.text_input('Current savings, $', '1000'))
+cont_monthly = int(st.sidebar.slider('Monthly contribution to the current savings, $', 0, 10000, 1000, step=100)) # min, max, default
 pf_risk_type = st.sidebar.radio('Portfolio Type?', ['Low risk', 'Medium risk', 'High risk'])
 curr_btc = int(st.sidebar.text_input('Number of BTC in your portfolio', '0'))
 curr_eth = int(st.sidebar.text_input('Number of Ethereum in your portfolio', '0'))
@@ -189,7 +189,7 @@ if result >= total_price:
 else:
     st.markdown('### Result:')
     st.markdown(f'### Sorry! You need more time or higher portfolio to buy a house in {num_years} years. :(((')
-    st.markdown(f'### You will have ${result: .2f} in {num_years}.')
+    st.markdown(f'### You will have ${result: .2f}.')
     st.markdown('This information is for informational purposes only and does not constitute recommendations.')
 st.markdown('---')
 
