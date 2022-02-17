@@ -165,3 +165,7 @@ st.markdown('---')
 #st.markdown('### Timeframe:')
 #st.write('Start date: ', start_date)
 #st.write('End date: ', end_date)
+
+st.write('Savings: ', savings)
+st.write('Cumulative return: ', cum_return)
+st.write('Result: ', result)
