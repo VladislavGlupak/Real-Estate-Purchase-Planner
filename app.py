@@ -33,9 +33,9 @@ curr_agg = int(st.sidebar.text_input('Number of AGG in your portfolio', '1'))
 
 # desired house
 st.sidebar.markdown("# Desired house")
-
 total_price = int(st.sidebar.text_input('Desired house price $', '2000000'))
-num_years = int(st.sidebar.slider('How many yesrs?', 0, 50, 10, step=1)) # min, max, default
+st.sidebar.markdown("# Time period")
+num_years = int(st.sidebar.slider('How many years?', 0, 50, 10, step=1)) # min, max, default
 
 if savings >= total_price:
     st.markdown('## You have anougth money!')
