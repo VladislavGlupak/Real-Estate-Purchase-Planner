@@ -178,30 +178,18 @@ sum_savings = savings + ((cont_monthly * 12) * num_years) # sum of savings
 cum_return = (btc_value + eth_value + total_stocks_bonds) * MC_summary_statistics[1] # cumulative return
 
 result = sum_savings + cum_return # result without crypto
-result_with_crypto = sum_savings + cum_return + btc_value + eth_value # results with crypto value
 
 # check if user will able to buy the house in desired time period
 if result >= total_price:
-    st.markdown('Result (Without intial value of crypto)')
+    st.markdown('### Result:')
     st.markdown(f'### Congratulations! You will be able to buy a house in {num_years} years. :)))')
+    st.markdown('This information is for informational purposes only and does not constitute recommendations.')
     st.balloons()
 else:
-    st.markdown('Result (Without intial value of crypto)')
+    st.markdown('### Result:')
     st.markdown(f'### Sorry! You need more time or higher portfolio to buy a house in {num_years} years. :(((')
-
+    st.markdown('This information is for informational purposes only and does not constitute recommendations.')
 st.markdown('---')
-
-# check if user will able to buy the house in desired time period (with initial crypto value)
-if result_with_crypto >= total_price:
-    st.markdown('Result')
-    st.markdown(f'Congratulations! You will be able to buy a house in {num_years} years. :)))')
-else:
-    st.markdown('Result')
-    st.markdown(f'Sorry! You need more time or higher portfolio to buy a house in {num_years} years. :(((')
-
-st.markdown('---')
-
-
 
 # for testing
 st.write('')
@@ -212,7 +200,6 @@ st.write('')
 st.write('## --- For testing ---')
 st.write('Cumulative return: ', cum_return)
 st.write('Result without intitial crypto amount: ', result)
-st.write('Result with intitial crypto amount: ', result_with_crypto)
 st.write(f'Type of {pf_risk_type} portfolio: ', weight)
 st.write(spy_value, agg_value, total_stocks_bonds)
 st.markdown('### Timeframe:')
