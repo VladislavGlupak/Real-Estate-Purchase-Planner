@@ -23,7 +23,7 @@ st.sidebar.markdown("# Portfolio")
 
 # define the inputs
 savings = int(st.sidebar.text_input('Savings, $', '1000'))
-cont_monthly = st.sidebar.slider('Monthly Contribution to Investments, $', 0, 10000, 5000, step=100) # min, max, default
+cont_monthly = int(st.sidebar.slider('Monthly Contribution to Investments, $', 0, 10000, 5000, step=100)) # min, max, default
 pf_risk_type = st.sidebar.radio('Portfolio Type?', ['Low risk', 'Medium risk', 'High risk'])
 curr_btc = cont_monthly = int(st.sidebar.text_input('Number of BTC in your portfolio', '10'))
 curr_eth = cont_monthly = int(st.sidebar.text_input('Number of Ethereum in your portfolio', '10'))
@@ -34,7 +34,7 @@ curr_agg = cont_monthly = int(st.sidebar.text_input('Number of AGG in your portf
 st.sidebar.markdown("# Desired house")
 
 total_price = int(st.sidebar.text_input('Desired house price $', '1000000'))
-num_years = st.sidebar.slider('How many yesrs?', 0, 50, 25, step=1) # min, max, default
+num_years = int(st.sidebar.slider('How many yesrs?', 0, 50, 25, step=1)) # min, max, default
 
 # Load .env environment variables
 load_dotenv()
