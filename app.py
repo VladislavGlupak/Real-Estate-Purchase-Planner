@@ -113,8 +113,8 @@ stocks_today = alpaca.get_barset(
     start = pd.Timestamp(now_to_string, tz="America/New_York").isoformat(),
     end = pd.Timestamp(now_to_string, tz="America/New_York").isoformat()
 ).df
-agg_close_price = stocks_today["AGG"]["close"]
-spy_close_price = stocks_today["SPY"]["close"]
+agg_close_price = float(stocks_today["AGG"]["close"])
+spy_close_price = float(stocks_today["SPY"]["close"])
 spy_value = curr_spy * spy_close_price
 agg_value = curr_agg * agg_close_price
 total_stocks_bonds = agg_value + spy_value
