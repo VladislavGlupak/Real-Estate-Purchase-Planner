@@ -73,6 +73,10 @@ tickers_stocks = ["SPY", "AGG"]
 tickers_crypto = ["BTCUSD", "ETHUSD"]
 
 # Portfolio types
+#Low risk = 100% stocks (SPY, AGG)
+#Medium risk = 80% stocks (SPY, AGG), 20% crypto (ETH, BTC)
+#High risk = 40% stocks (SPY, AGG), 60% crypto (ETH, BTC)
+
 low_risk = [.00, .00, .50, .50]
 medium_risk = [.10, 0.10, .40, 0.40]
 high_risk = [.30, 0.30, .20, 0.20]
