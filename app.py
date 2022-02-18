@@ -10,7 +10,6 @@ from dateutil.relativedelta import relativedelta
 from MCForecastTools import MCSimulation
 from PIL import Image
 from alpaca_trade_api.rest import TimeFrame
-import time
 
 # web page name
 st.set_page_config(page_title="Real Estate Purchase Planner in California", page_icon=":house:")
@@ -72,6 +71,9 @@ with st.spinner('### Please wait...'):
     years_ago = now - relativedelta(years=num_years) # calculate start date
     years_ago_to_string = years_ago.strftime("%Y-%m-%d") # convert end date to string
 
+    yesterday = now - relativedelta(days=1)
+    yesterday_to_string = yesterday.strftime("%Y-%m-%d")
+
     # Format current date as ISO format
     start_date = pd.Timestamp(years_ago_to_string, tz="America/New_York").isoformat()
     end_date = pd.Timestamp(now_to_string, tz="America/New_York").isoformat()
@@ -114,12 +116,12 @@ with st.spinner('### Please wait...'):
     stocks_today = alpaca.get_barset(
         tickers_stocks,
         '1D',
-        start = pd.Timestamp(now_to_string, tz="America/New_York").isoformat(),
-        end = pd.Timestamp(now_to_string, tz="America/New_York").isoformat()
+        start = pd.Timestamp(yesterday_to_string, tz="America/New_York").isoformat(),
+        end = pd.Timestamp(yesterday_to_string, tz="America/New_York").isoformat()
     ).df
-    time.sleep(5)
-    agg_close_price = stocks_today.iloc[0,1]
-    spy_close_price = stocks_today.iloc[0,5]
+    
+    agg_close_price = stocks_today.iloc[0,3]
+    spy_close_price = stocks_today.iloc[0,8]
     spy_value = curr_spy * spy_close_price
     agg_value = curr_agg * agg_close_price
     total_stocks_bonds = agg_value + spy_value
