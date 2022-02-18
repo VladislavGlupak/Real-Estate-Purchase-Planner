@@ -1,5 +1,4 @@
 dependencies:
   - pip:
-      - pandas==1.2.4
       - alpaca-trade-api==1.4.3
       - python-dotenv==0.19.2
