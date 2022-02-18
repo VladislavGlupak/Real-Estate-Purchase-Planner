@@ -10,6 +10,7 @@ from dateutil.relativedelta import relativedelta
 from MCForecastTools import MCSimulation
 from PIL import Image
 from alpaca_trade_api.rest import TimeFrame
+import time
 
 # web page name
 st.set_page_config(page_title="Real Estate Purchase Planner in California", page_icon=":house:")
@@ -116,6 +117,7 @@ with st.spinner('### Please wait...'):
         start = pd.Timestamp(now_to_string, tz="America/New_York").isoformat(),
         end = pd.Timestamp(now_to_string, tz="America/New_York").isoformat()
     ).df
+    time.sleep(5)
     agg_close_price = stocks_today.iloc[0,1]
     spy_close_price = stocks_today.iloc[0,5]
     spy_value = curr_spy * spy_close_price
