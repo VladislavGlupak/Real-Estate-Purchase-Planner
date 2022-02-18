@@ -71,6 +71,7 @@ with st.spinner('### Please wait...'):
     years_ago = now - relativedelta(years=num_years) # calculate start date
     years_ago_to_string = years_ago.strftime("%Y-%m-%d") # convert end date to string
 
+    # date for stock and bonds (we are taking yesterday's close price)
     yesterday = now - relativedelta(days=1)
     yesterday_to_string = yesterday.strftime("%Y-%m-%d")
 
@@ -120,12 +121,16 @@ with st.spinner('### Please wait...'):
         end = pd.Timestamp(yesterday_to_string, tz="America/New_York").isoformat()
     ).df
     
+    # parsing stocks_today df
     agg_close_price = stocks_today.iloc[0,3]
     spy_close_price = stocks_today.iloc[0,8]
+
+    # calculating value of AGG and SPY
     spy_value = curr_spy * spy_close_price
     agg_value = curr_agg * agg_close_price
     total_stocks_bonds = agg_value + spy_value
 
+    # Collecting data for MC simulation
     # Get closing prices for SPY and AGG
     stocks = alpaca.get_barset(
         tickers_stocks,
