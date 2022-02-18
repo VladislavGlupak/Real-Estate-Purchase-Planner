@@ -1,4 +1,5 @@
 import os
+from pydoc import describe
 import requests
 import streamlit as st
 import pandas as pd
@@ -22,11 +23,11 @@ st.markdown('---')
 st.sidebar.markdown("# Portfolio")
 
 # define the inputs
-savings = int(st.sidebar.text_input('current savings, $', '1000'))
-cont_monthly = int(st.sidebar.slider('Monthly contribution to savings, $', 0, 10000, 1000, step=100)) # min, max, default
+savings = int(st.sidebar.text_input('Current savings, $', '1000'))
+cont_monthly = int(st.sidebar.slider('Monthly contribution to the current savings, $', 0, 10000, 1000, step=100)) # min, max, default
 pf_risk_type = st.sidebar.radio('Portfolio Type?', ['Low risk', 'Medium risk', 'High risk'])
-curr_btc = int(st.sidebar.text_input('Number of BTC in your portfolio', '1'))
-curr_eth = int(st.sidebar.text_input('Number of Ethereum in your portfolio', '1'))
+curr_btc = float(st.sidebar.text_input('Number of BTC in your portfolio', '0'))
+curr_eth = float(st.sidebar.text_input('Number of Ethereum in your portfolio', '0'))
 curr_spy = int(st.sidebar.text_input('Number of S&P500 in your portfolio', '1'))
 curr_agg = int(st.sidebar.text_input('Number of AGG in your portfolio', '1'))
 
@@ -38,9 +39,9 @@ if (pf_risk_type == "Low risk") and (curr_btc !=0 or curr_eth !=0):
 # desired house
 st.sidebar.markdown("# Desired house")
 total_price = int(st.sidebar.text_input('Desired house price $', '2000000'))
+pct_down = float(st.sidebar.slider('Percent down on the house?', 0, 100, 20)) # min, max, default # divide by 100 later
 st.sidebar.markdown("# Time period")
 num_years = int(st.sidebar.slider('How many years?', 0, 50, 10, step=1)) # min, max, default
-pct_down = float(st.sidebar.slider('Percent down on the house?', 0, 100, 20)) # min, max, default # divide by 100 later
 
 if savings >= total_price:
     st.markdown(f'## You have enough money in savings alone to buy the house at {total_price}!')
@@ -64,7 +65,8 @@ btc_url = "https://api.alternative.me/v2/ticker/Bitcoin/?convert=USD"
 eth_url = "https://api.alternative.me/v2/ticker/Ethereum/?convert=USD"
 
 with st.spinner('### Please wait...'):
-    # calculate dates
+
+    # Calculate dates
     now = datetime.now() # end date
     now_to_string = now.strftime("%Y-%m-%d") # convert end date to string
     years_ago = now - relativedelta(years=num_years) # calculate start date
@@ -112,17 +114,17 @@ with st.spinner('### Please wait...'):
     btc_value = curr_btc * btc_price
     eth_value = curr_eth * eth_price
 
-# calculating stocks and bonds values
-stocks_today = alpaca.get_barset(
-    tickers_stocks,
-    '1D',
-    start = pd.Timestamp(now_to_string, tz="America/New_York").isoformat(),
-    end = pd.Timestamp(now_to_string, tz="America/New_York").isoformat()
-).df
-
+    # calculating stocks and bonds values
+    stocks_yesterday = alpaca.get_barset(
+        tickers_stocks,
+        '1D',
+        start = pd.Timestamp(yesterday_to_string, tz="America/New_York").isoformat(),
+        end = pd.Timestamp(yesterday_to_string, tz="America/New_York").isoformat()
+    ).df
+    
     # parsing stocks_today df
-    agg_close_price = stocks_today.iloc[0,3]
-    spy_close_price = stocks_today.iloc[0,8]
+    agg_close_price = stocks_yesterday.iloc[0,3]
+    spy_close_price = stocks_yesterday.iloc[0,8]
 
     # calculating value of AGG and SPY
     spy_value = curr_spy * spy_close_price
@@ -190,67 +192,28 @@ stocks_today = alpaca.get_barset(
 
     result = sum_savings + cum_return # result without crypto
 
-    result_with_crypto = sum_savings + cum_return + btc_value + eth_value # results with crypto value
-
     amount_needed = (pct_down/100) * total_price # amount needed for down payment
-    
-    monthly_payment_after_dp = (total_price - amount_needed)/360 # 30 year mortgage is 360 months
+
+    monthly_payment_after_dp = (total_price - amount_needed)/(12*num_years) # 
 
     # check if user will able to buy the house in desired time period
     if result >= total_price:
-        st.markdown('Result (Without initial value of crypto)')
-        st.markdown(f'### Congratulations! You will be able to buy a house in {num_years} years. :)))')
-        st.balloons()
+        st.markdown('### Result:')
+        st.markdown(f'### Congratulations! You will be able to buy a house with desired price ${total_price} in {num_years} years. :)))')
+        st.markdown(f'### You will have ${result: .2f}.')
+        st.markdown('This data is for informational purposes only.')
     elif result >= amount_needed:
         st.markdown('### Result:')
         st.markdown(f'### Congratulations! You can afford the {pct_down}% down payment on a house with desired price of ${total_price} in {num_years} years. :)))')
         st.markdown(f'### You will have ${result: .2f}.')
         st.markdown(
-            f'''### Make sure that you continue to save enough to pay the average monthly cost of {monthly_payment_after_dp:.2f}. 
+            f'''### Make sure that you continue to save enough to pay the average monthly cost of ${monthly_payment_after_dp:.2f}. 
             * Not including interest rate and taxes.'''
             )
         st.markdown('This data is for informational purposes only.')
-        st.balloons()
     else:
-        st.markdown('Result (Without intial value of crypto)')
-        st.markdown(f'### Sorry! You need more time or higher portfolio to buy a house in {num_years} years. :(((')
-
-    st.markdown('---')
-
-    # check if user will able to buy the house in desired time period (with initial crypto value)
-    if result_with_crypto >= total_price:
-        st.markdown('Result')
-        st.markdown(f'Congratulations! You will be able to buy a house in {num_years} years. :)))')
-    elif result_with_crypto >= amount_needed:
         st.markdown('### Result:')
-        st.markdown(f'### Congratulations! You can afford the {pct_down}% down payment on a house with desired price of ${total_price} in {num_years} years. :)))')
+        st.markdown(f'### Sorry! You need more time or higher portfolio to buy a house in {num_years} years. :(((')
         st.markdown(f'### You will have ${result: .2f}.')
-        st.markdown(
-            f'''### Make sure that you continue to save enough to pay the average monthly cost of {monthly_payment_after_dp:.2f}. 
-            * Not including interest rate and taxes.'''
-            )
         st.markdown('This data is for informational purposes only.')
-        st.balloons()
-    else:
-        st.markdown('Result')
-        st.markdown(f'Sorry! You need more time or higher portfolio to buy a house in {num_years} years. :(((')
-
     st.markdown('---')
-
-
-
-# for testing
-st.write('')
-st.write('')
-st.write('')
-st.write('')
-st.write('')
-st.write('## --- For testing ---')
-st.write('Cumulative return: ', cum_return)
-st.write('Result without intitial crypto amount: ', result)
-st.write('Result with intitial crypto amount: ', result_with_crypto)
-st.write(f'Type of {pf_risk_type} portfolio: ', weight)
-st.write(spy_value, agg_value, total_stocks_bonds)
-st.markdown('### Timeframe:')
-st.write('Start date: ', start_date)
-st.write('End date: ', end_date)

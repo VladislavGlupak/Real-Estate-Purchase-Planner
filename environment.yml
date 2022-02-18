@@ -1,4 +1,4 @@
 dependencies:
   - pip:
-    - alpaca-trade-api==1.4.3
-    - python-dotenv==0.19.2
+      - alpaca-trade-api==1.4.3
+      - python-dotenv==0.19.2
