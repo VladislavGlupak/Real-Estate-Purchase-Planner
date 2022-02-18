@@ -114,7 +114,7 @@ with st.spinner('### Please wait...'):
     eth_value = curr_eth * eth_price
 
     # calculating stocks and bonds values
-    stocks_today = alpaca.get_barset(
+    stocks_yesterday = alpaca.get_barset(
         tickers_stocks,
         '1D',
         start = pd.Timestamp(yesterday_to_string, tz="America/New_York").isoformat(),
@@ -122,8 +122,8 @@ with st.spinner('### Please wait...'):
     ).df
     
     # parsing stocks_today df
-    agg_close_price = stocks_today.iloc[0,3]
-    spy_close_price = stocks_today.iloc[0,8]
+    agg_close_price = stocks_yesterday.iloc[0,3]
+    spy_close_price = stocks_yesterday.iloc[0,8]
 
     # calculating value of AGG and SPY
     spy_value = curr_spy * spy_close_price
@@ -207,16 +207,16 @@ with st.spinner('### Please wait...'):
 
         
 
-    # for testing
-    st.write('')
-    st.write('')
-    st.write('')
-    st.write('')
-    st.write('')
-    st.write('## --- For testing ---')
-    st.write('Cumulative return: ', cum_return)
-    st.write(f'Type of {pf_risk_type} portfolio: ', weight)
-    st.write(spy_value, agg_value, total_stocks_bonds)
-    st.markdown('### Timeframe:')
-    st.write('Start date: ', start_date)
-    st.write('End date: ', end_date)
+    # code for testing
+    # st.write('')
+    # st.write('')
+    # st.write('')
+    # st.write('')
+    # st.write('')
+    # st.write('## --- For testing ---')
+    # st.write('Cumulative return: ', cum_return)
+    # st.write(f'Type of {pf_risk_type} portfolio: ', weight)
+    # st.write(spy_value, agg_value, total_stocks_bonds)
+    # st.markdown('### Timeframe:')
+    # st.write('Start date: ', start_date)
+    # st.write('End date: ', end_date)
