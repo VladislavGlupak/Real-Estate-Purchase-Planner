@@ -116,8 +116,8 @@ with st.spinner('### Please wait...'):
         start = pd.Timestamp(now_to_string, tz="America/New_York").isoformat(),
         end = pd.Timestamp(now_to_string, tz="America/New_York").isoformat()
     ).df
-    agg_close_price = stocks_today.iloc[0,3]
-    spy_close_price = stocks_today.iloc[0,8]
+    agg_close_price = stocks_today.iloc[0,1]
+    spy_close_price = stocks_today.iloc[0,5]
     spy_value = curr_spy * spy_close_price
     agg_value = curr_agg * agg_close_price
     total_stocks_bonds = agg_value + spy_value
