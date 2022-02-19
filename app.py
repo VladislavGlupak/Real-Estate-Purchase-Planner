@@ -35,7 +35,7 @@ curr_agg = float(st.sidebar.text_input('Number of AGG in your portfolio', '1'))
 
 # desired house
 st.sidebar.markdown("# Desired house")
-total_price = int(st.sidebar.text_input('Desired house price $', '2000000'))
+total_price = int(st.sidebar.text_input('Desired house price $', '1500000'))
 pct_down = float(st.sidebar.slider('Percent down on the house?', 0, 100, 20)) # min, max, default # divide by 100 later
 desired_city = st.sidebar.text_input('Desired city, state "example: San Francisco, CA"', 'San Francisco, CA')
 st.sidebar.markdown("# Time period")
@@ -219,22 +219,27 @@ else:
                 st.markdown('This data is for informational purposes only.')
             st.markdown('---')
 
-            # Retrieve mapdata
+            # Retrieve mapdata ---
 
-            url = 'https://zillow-com1.p.rapidapi.com/propertyExtendedSearch'
+            url = 'https://zillow-com1.p.rapidapi.com/propertyExtendedSearch' # url for search
             query = {f'location': {desired_city}, 'home_type': 'Houses'}
+
+            # set type of data resource and security key
             headers =  {
             'x-rapidapi-host': 'zillow-com1.p.rapidapi.com',
             'x-rapidapi-key': rapidapi_key
             }
-            response = requests.request('GET', url, headers=headers, params=query)
-            response_json = response.json()
 
+            # perform the GET request
+            response = requests.request('GET', url, headers=headers, params=query)
+            response_json = response.json() # convert response to json
+
+            # check if app recieved error code
             if int(response.status_code) != 200:
                 st.markdown(f"### Approximate location of the houses in {desired_city}")
                 st.markdown("Sorry! We couldn't get any response from server. Try one more time.")
             else:
-                if len(response_json) == 0:
+                if len(response_json) == 0: # check if json doesn't contain requested data
                     st.markdown(f"### Approximate location of the houses in {desired_city}")
                     st.markdown("We did not find any data matching your request...")
                 else:
@@ -245,27 +250,27 @@ else:
                         big_mac_index_data = {
                         "lon": [response_json["props"][count]['longitude']],
                         "lat": [response_json["props"][count]['latitude']],
-                        "address": [response_json["props"][count]['address']],
-                        "price": [response_json["props"][count]['price']],
+                        "Address": [response_json["props"][count]['address']],
+                        "Current price": [response_json["props"][count]['price']],
                         }
                         df = df.append(pd.DataFrame.from_dict(big_mac_index_data))
                         if count <= len(response_json["props"]):
                             count = count+1       
-
-                    df_filtred_by_price = df[ (total_price-(total_price*0.2) <= df['price']) & (df['price'] <= total_price+(total_price*0.2))]
+                    # filter results by current price
+                    df_filtred_by_price = df[ (total_price-(total_price*0.2) <= df['Current price']) & (df['Current price'] <= total_price+(total_price*0.2))]
                     df_filtred_by_price = df_filtred_by_price.reset_index(drop=True)
                     
-                   
-
                     st.markdown(f"### Approximate locations of the houses in {desired_city}")
-                    st.map(df_filtred_by_price)
+                    st.map(df_filtred_by_price) # generate map
                     st.markdown("### Houses we could find for you based on today's data:")
                     st.markdown("20% range based on desired price.")
-                    df_filtred_by_price_drop_lat_lon = df_filtred_by_price.drop(columns=['lon', 'lat'])
+                    df_filtred_by_price_drop_lat_lon = df_filtred_by_price.drop(columns=['lon', 'lat']) # drop extra columns
 
+                    # calculate future price
                     interest_rate = 0.038
-                    df_filtred_by_price_drop_lat_lon["future price"]=df_filtred_by_price_drop_lat_lon['price']*((1+interest_rate)**num_years)
+                    df_filtred_by_price_drop_lat_lon["Future price"]=df_filtred_by_price_drop_lat_lon['Current price']*((1+interest_rate)**num_years)
 
+                    # output table with addresses
                     df_filtred_by_price_drop_lat_lon
                     
 
