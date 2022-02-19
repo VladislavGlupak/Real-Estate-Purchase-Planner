@@ -1,6 +1,5 @@
 import os
 import pandas as pd
-import hvplot.pandas
 import requests
 import json
 from pydoc import describe
