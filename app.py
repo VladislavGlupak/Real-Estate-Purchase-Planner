@@ -230,9 +230,11 @@ else:
             response_json = response.json()
 
             if int(response.status_code) != 200:
+                st.markdown(f"### Approximate location of the houses in {desired_city}")
                 st.markdown("Sorry! We couldn't get any response from server. Try one more time.")
             else:
                 if len(response_json) == 0:
+                    st.markdown(f"### Approximate location of the houses in {desired_city}")
                     st.markdown("We did not find any data matching your request...")
                 else:
                 # pull desired data from json
