@@ -257,4 +257,3 @@ else:
                     st.markdown("### Houses we could find for you based on current data.")
                     df_filtred_by_price_drop_lat_lon = df_filtred_by_price.drop(columns=['lon', 'lat'])
                     df_filtred_by_price_drop_lat_lon
-                    
