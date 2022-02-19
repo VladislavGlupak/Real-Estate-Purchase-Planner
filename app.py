@@ -50,9 +50,10 @@ else:
         # Load .env environment variables
         load_dotenv()
 
-        # Set Alpaca API key and secret
+        # Set API keys and secret
         alpaca_api_key = os.getenv("ALPACA_API_KEY")
         alpaca_secret_key = os.getenv("ALPACA_SECRET_KEY")
+        radipapi_key = os.getenv("RAPIDAPI_KEY")
 
         # Create the Alpaca API object
         alpaca = tradeapi.REST(
@@ -224,7 +225,7 @@ else:
             query = {f'location': {desired_city}, 'home_type': 'Houses'}
             headers =  {
             'x-rapidapi-host': 'zillow-com1.p.rapidapi.com',
-            'x-rapidapi-key': 'c039c94e44msh15c6a851d5e7e68p1ce297jsn3a5904ceb62e'
+            'x-rapidapi-key': radipapi_key
             }
             response = requests.request('GET', url, headers=headers, params=query)
             response_json = response.json()
