@@ -252,7 +252,7 @@ else:
                     df_filtred_by_price = df[ (total_price-(total_price*0.1) <= df['price']) & (df['price'] <= total_price+(total_price*0.1))]
                     df_filtred_by_price = df_filtred_by_price.reset_index(drop=True)
                     
-                    st.markdown(f"### Approximate location of the houseы in {desired_city}")
+                    st.markdown(f"### Approximate location of the houses in {desired_city}")
                     st.map(df_filtred_by_price)
                     st.markdown("### Houses we could find for you based on today's data:")
                     df_filtred_by_price_drop_lat_lon = df_filtred_by_price.drop(columns=['lon', 'lat'])
