@@ -18,7 +18,7 @@ st.set_page_config(page_title="Real Estate Purchase Planner in California", page
 st.image(Image.open('pics/picture.jpg'))
 
 # app title
-st.markdown('## Real Estate Purchase Planner in California')
+st.markdown('## Real Estate Purchase Planner')
 st.markdown('---')
 
 # fist part of sidebar
