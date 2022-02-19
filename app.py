@@ -263,12 +263,12 @@ else:
                     st.markdown(f"### Approximate locations of the houses in {desired_city}")
                     st.map(df_filtred_by_price) # generate map
                     st.markdown("### Houses we could find for you based on today's data:")
-                    st.markdown("20% range based on desired price.")
+                    st.markdown("Curret price is 20% range based on desired price. Future price is calculated with interest rate 3.8%.")
                     df_filtred_by_price_drop_lat_lon = df_filtred_by_price.drop(columns=['lon', 'lat']) # drop extra columns
 
                     # calculate future price
                     interest_rate = 0.038
-                    df_filtred_by_price_drop_lat_lon["Future price (3,8%)"]=df_filtred_by_price_drop_lat_lon['Current price']*((1+interest_rate)**num_years)
+                    df_filtred_by_price_drop_lat_lon["Future price"]=df_filtred_by_price_drop_lat_lon['Current price']*((1+interest_rate)**num_years)
 
                     # output table with addresses
                     df_filtred_by_price_drop_lat_lon
