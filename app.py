@@ -1,8 +1,11 @@
 import os
+import pandas as pd
+import hvplot.pandas
+import requests
+import json
 from pydoc import describe
 import requests
 import streamlit as st
-import pandas as pd
 from dotenv import load_dotenv
 import alpaca_trade_api as tradeapi
 from datetime import datetime
@@ -35,6 +38,7 @@ curr_agg = int(st.sidebar.text_input('Number of AGG in your portfolio', '1'))
 st.sidebar.markdown("# Desired house")
 total_price = int(st.sidebar.text_input('Desired house price $', '2000000'))
 pct_down = float(st.sidebar.slider('Percent down on the house?', 0, 100, 20)) # min, max, default # divide by 100 later
+desired_city = st.sidebar.text_input('Desired city', 'San Jose')
 st.sidebar.markdown("# Time period")
 num_years = int(st.sidebar.slider('How many years?', 0, 50, 10, step=1)) # min, max, default
 
@@ -214,3 +218,44 @@ else:
                 st.markdown(f'### You will have from investing and savings ${result: .2f}.')
                 st.markdown('This data is for informational purposes only.')
             st.markdown('---')
+
+            # Retrieve mapdata
+
+            url = 'https://zillow-com1.p.rapidapi.com/propertyExtendedSearch'
+            query = {f'location': {desired_city}, 'home_type': 'Houses'}
+            headers =  {
+            'x-rapidapi-host': 'zillow-com1.p.rapidapi.com',
+            'x-rapidapi-key': 'c039c94e44msh15c6a851d5e7e68p1ce297jsn3a5904ceb62e'
+            }
+            response = requests.request('GET', url, headers=headers, params=query)
+            response_json = response.json()
+
+            if int(response.status_code) != 200:
+                st.markdown("Sorry! We couldn't get any response from server. Try one more time.")
+            else:
+                if len(response_json) == 0:
+                    st.markdown("We did not find any data matching your request...")
+                else:
+                # pull desired data from json
+                    df = pd.DataFrame()
+                    count = 0
+                    for address in response_json["props"]:
+                        big_mac_index_data = {
+                        "lon": [response_json["props"][count]['longitude']],
+                        "lat": [response_json["props"][count]['latitude']],
+                        "address": [response_json["props"][count]['address']],
+                        "price": [response_json["props"][count]['price']],
+                        }
+                        df = df.append(pd.DataFrame.from_dict(big_mac_index_data))
+                        if count <= len(response_json["props"]):
+                            count = count+1       
+
+                    df_filtred_by_price = df[ (total_price-(total_price*0.1) <= df['price']) & (df['price'] <= total_price+(total_price*0.1))]
+                    df_filtred_by_price = df_filtred_by_price.reset_index(drop=True)
+                    
+                    st.markdown("### Approximate location of the house")
+                    st.map(df_filtred_by_price)
+                    st.markdown("### Houses we could find for you based on current data.")
+                    df_filtred_by_price_drop_lat_lon = df_filtred_by_price.drop(columns=['lon', 'lat'])
+                    df_filtred_by_price_drop_lat_lon
+                    
