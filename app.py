@@ -53,7 +53,7 @@ else:
         # Set API keys
         alpaca_api_key = os.getenv("ALPACA_API_KEY")
         alpaca_secret_key = os.getenv("ALPACA_SECRET_KEY")
-        radipapi_key = os.getenv("RAPIDAPI_KEY")
+        rapidapi_key = os.getenv("RAPIDAPI_KEY")
 
         # Create the Alpaca API object
         alpaca = tradeapi.REST(
@@ -200,22 +200,22 @@ else:
             # check if user will able to buy the house in desired time period
             if result >= total_price:
                 st.markdown('### Result:')
-                st.markdown(f'### Congratulations! You will be able to buy a house with desired price ${total_price} in {num_years} years. :)))')
-                st.markdown(f'### You will have from investing and savings ${result: .2f}.')
+                st.markdown(f'### Congratulations! You will be able to buy a house with desired price ${total_price:,} in {num_years} years. :)))')
+                st.markdown(f'### You will have from investing and savings ${result:,.2f}.')
                 st.markdown('This data is for informational purposes only.')
             elif result >= amount_needed:
                 st.markdown('### Result:')
-                st.markdown(f'### Congratulations! You can afford the {pct_down}% down payment on a house with desired price of ${total_price} in {num_years} years. :)))')
-                st.markdown(f'### You will have from investing and savings ${result: .2f}.')
+                st.markdown(f'### Congratulations! You can afford the {pct_down}% down payment on a house with desired price of ${total_price:,} in {num_years} years. :)))')
+                st.markdown(f'### You will have from investing and savings ${result:,.2f}.')
                 st.markdown(
-                    f'''### Make sure that you continue to save enough to pay the average monthly cost of ${monthly_payment_after_dp:.2f}. 
+                    f'''### Make sure that you continue to save enough to pay the average monthly cost of ${monthly_payment_after_dp:,.2f}. 
                     * Not including interest rate and taxes.'''
                     )
                 st.markdown('This data is for informational purposes only.')
             else:
                 st.markdown('### Result:')
                 st.markdown(f'### Sorry! You need more time or higher portfolio to buy a house in {num_years} years. :(((')
-                st.markdown(f'### You will have from investing and savings ${result: .2f}.')
+                st.markdown(f'### You will have from investing and savings ${result:,.2f}.')
                 st.markdown('This data is for informational purposes only.')
             st.markdown('---')
 
@@ -225,7 +225,7 @@ else:
             query = {f'location': {desired_city}, 'home_type': 'Houses'}
             headers =  {
             'x-rapidapi-host': 'zillow-com1.p.rapidapi.com',
-            'x-rapidapi-key': radipapi_key
+            'x-rapidapi-key': rapidapi_key
             }
             response = requests.request('GET', url, headers=headers, params=query)
             response_json = response.json()
@@ -261,4 +261,6 @@ else:
                     st.markdown("20% range based on desired price.")
                     df_filtred_by_price_drop_lat_lon = df_filtred_by_price.drop(columns=['lon', 'lat'])
                     df_filtred_by_price_drop_lat_lon
+                    interest_rate = 0.038
+                    df_filtred_by_price_fv = df_filtred_by_price_drop_lat_lon.insert(2,"future price",df_filtred_by_price_drop_lat_lon['price']*((1+interest_rate))**num_years)
 
