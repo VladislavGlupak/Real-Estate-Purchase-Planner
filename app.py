@@ -50,7 +50,7 @@ else:
         # Load .env environment variables
         load_dotenv()
 
-        # Set API keys and secret
+        # Set API keys
         alpaca_api_key = os.getenv("ALPACA_API_KEY")
         alpaca_secret_key = os.getenv("ALPACA_SECRET_KEY")
         radipapi_key = os.getenv("RAPIDAPI_KEY")
