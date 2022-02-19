@@ -268,7 +268,7 @@ else:
 
                     # calculate future price
                     interest_rate = 0.038
-                    df_filtred_by_price_drop_lat_lon["Future price"]=df_filtred_by_price_drop_lat_lon['Current price']*((1+interest_rate)**num_years)
+                    df_filtred_by_price_drop_lat_lon["Future price (rate 3,8%)"]=df_filtred_by_price_drop_lat_lon['Current price']*((1+interest_rate)**num_years)
 
                     # output table with addresses
                     df_filtred_by_price_drop_lat_lon
