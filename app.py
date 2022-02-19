@@ -29,15 +29,15 @@ savings = int(st.sidebar.text_input('Current savings, $', '1000'))
 cont_monthly = int(st.sidebar.slider('Monthly contribution to the current savings, $', 0, 10000, 1000, step=100)) # min, max, default
 pf_risk_type = st.sidebar.radio('Portfolio Type?', ['Low risk', 'Medium risk', 'High risk'])
 curr_btc = float(st.sidebar.text_input('Number of BTC in your portfolio', '0'))
-curr_eth = float(st.sidebar.text_input('Number of Ethereum in your portfolio', '0'))
-curr_spy = int(st.sidebar.text_input('Number of S&P500 in your portfolio', '1'))
-curr_agg = int(st.sidebar.text_input('Number of AGG in your portfolio', '1'))
+curr_eth = float(st.sidebar.text_input('Number of ETH in your portfolio', '0'))
+curr_spy = float(st.sidebar.text_input('Number of SPY in your portfolio', '1'))
+curr_agg = float(st.sidebar.text_input('Number of AGG in your portfolio', '1'))
 
 # desired house
 st.sidebar.markdown("# Desired house")
 total_price = int(st.sidebar.text_input('Desired house price $', '2000000'))
 pct_down = float(st.sidebar.slider('Percent down on the house?', 0, 100, 20)) # min, max, default # divide by 100 later
-desired_city = st.sidebar.text_input('Desired city, "example: San Francisco, CA"', 'San Francisco, CA')
+desired_city = st.sidebar.text_input('Desired city, state "example: San Francisco, CA"', 'San Francisco, CA')
 st.sidebar.markdown("# Time period")
 num_years = int(st.sidebar.slider('How many years?', 0, 50, 10, step=1)) # min, max, default
 
@@ -195,7 +195,7 @@ else:
 
             amount_needed = (pct_down/100) * total_price # amount needed for down payment
 
-            monthly_payment_after_dp = (total_price - amount_needed)/(12*num_years) # 
+            monthly_payment_after_dp = (total_price - amount_needed)/(360) # 30 year mortgage is 360 months
 
             # check if user will able to buy the house in desired time period
             if result >= total_price:
@@ -261,3 +261,4 @@ else:
                     st.markdown("20% range based on desired price.")
                     df_filtred_by_price_drop_lat_lon = df_filtred_by_price.drop(columns=['lon', 'lat'])
                     df_filtred_by_price_drop_lat_lon
+
