@@ -254,6 +254,6 @@ else:
                     
                     st.markdown("### Approximate location of the house")
                     st.map(df_filtred_by_price)
-                    st.markdown("### Houses we could find for you based on current data.")
+                    st.markdown("### Houses we could find for you based on today's data.")
                     df_filtred_by_price_drop_lat_lon = df_filtred_by_price.drop(columns=['lon', 'lat'])
                     df_filtred_by_price_drop_lat_lon
