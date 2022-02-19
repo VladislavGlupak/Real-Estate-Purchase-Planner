@@ -37,7 +37,7 @@ curr_agg = int(st.sidebar.text_input('Number of AGG in your portfolio', '1'))
 st.sidebar.markdown("# Desired house")
 total_price = int(st.sidebar.text_input('Desired house price $', '2000000'))
 pct_down = float(st.sidebar.slider('Percent down on the house?', 0, 100, 20)) # min, max, default # divide by 100 later
-desired_city = st.sidebar.text_input('Desired city', 'San Jose')
+desired_city = st.sidebar.text_input('Desired city, "example: New York, NY"', 'San Jose, CA')
 st.sidebar.markdown("# Time period")
 num_years = int(st.sidebar.slider('How many years?', 0, 50, 10, step=1)) # min, max, default
 
