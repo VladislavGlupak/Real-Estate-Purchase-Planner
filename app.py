@@ -1,9 +1,6 @@
 import os
 import pandas as pd
 import requests
-import json
-from pydoc import describe
-import requests
 import streamlit as st
 from dotenv import load_dotenv
 import alpaca_trade_api as tradeapi
@@ -25,7 +22,7 @@ st.markdown('---')
 st.sidebar.markdown("# Portfolio")
 
 # define the inputs
-savings = int(st.sidebar.text_input('Current savings, $', '1000'))
+savings = int(st.sidebar.text_input('Current savings, $', '10000'))
 cont_monthly = int(st.sidebar.slider('Monthly contribution to the current savings, $', 0, 10000, 1000, step=100)) # min, max, default
 pf_risk_type = st.sidebar.radio('Portfolio Type?', ['Low risk', 'Medium risk', 'High risk'])
 curr_btc = float(st.sidebar.text_input('Number of BTC in your portfolio', '0'))
@@ -39,7 +36,7 @@ total_price = int(st.sidebar.text_input('Desired house price $', '1500000'))
 pct_down = float(st.sidebar.slider('Percent down on the house?', 0, 100, 20)) # min, max, default # divide by 100 later
 desired_city = st.sidebar.text_input('Desired city, state "example: San Francisco, CA"', 'San Francisco, CA')
 st.sidebar.markdown("# Time period")
-num_years = int(st.sidebar.slider('How many years?', 0, 50, 10, step=1)) # min, max, default
+num_years = int(st.sidebar.slider('How many years?', 0, 50, 15, step=1)) # min, max, default
 
 if (pf_risk_type == "Low risk") and (curr_btc !=0 or curr_eth !=0):
     st.markdown('### BTC and ETH should be ZERO!! (low risk only includes stocks)')
