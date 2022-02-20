@@ -71,7 +71,7 @@ else:
             years_ago_to_string = years_ago.strftime("%Y-%m-%d") # convert end date to string
 
             # date for stock and bonds (we are taking yesterday's close price)
-            yesterday = now - relativedelta(days=3)
+            yesterday = now - relativedelta(days=1)
             yesterday_to_string = yesterday.strftime("%Y-%m-%d")
 
             # Format current date as ISO format
@@ -270,4 +270,5 @@ else:
                     # output table with addresses
                     df_filtred_by_price_drop_lat_lon
                     
+                    st.markdown(now)
 
