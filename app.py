@@ -76,9 +76,9 @@ else:
             if now.weekday() == 5: # 5 is Satuday, Week [0 - Monday, ..., 6 - Sunday]
                 stocks_day = now - relativedelta(days=1) # if today is Saturday => close prices from Friday
             elif now.weekday() == 6:
-                stocks_day = now - relativedelta(days=2) # if todays if Sunday => close prices from Friday
+                stocks_day = now - relativedelta(days=2) # if today if Sunday => close prices from Friday
             elif now.weekday() == 0:
-                stocks_day = now - relativedelta(days=3) # if todays is Monday => close prices from Friday
+                stocks_day = now - relativedelta(days=3) # if today is Monday => close prices from Friday
 
             stocks_day_to_string = stocks_day.strftime("%Y-%m-%d") # convert to string
             
