@@ -209,7 +209,7 @@ else:
                 st.markdown(f'### You will have from investing and savings ${result:,.2f}.')
                 st.markdown(
                     f'''### Make sure that you continue to save enough to pay the average monthly cost of ${monthly_payment_after_dp:,.2f}. 
-                    * Not including interest rate and taxes.'''
+                    * Calculated for a 30 year mortgage period - not including interest rate and taxes.'''
                     )
                 st.markdown('This data is for informational purposes only.')
             else:
