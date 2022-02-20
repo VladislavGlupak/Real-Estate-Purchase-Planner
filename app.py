@@ -279,4 +279,5 @@ else:
                     df_filtred_by_price_drop_lat_lon
                     
                     st.markdown(now)
+                    st.markdown(stocks_day_to_string)
 
