@@ -71,9 +71,17 @@ else:
             years_ago_to_string = years_ago.strftime("%Y-%m-%d") # convert end date to string
 
             # date for stock and bonds (we are taking yesterday's close price)
-            yesterday = now - relativedelta(days=3)
-            yesterday_to_string = yesterday.strftime("%Y-%m-%d")
+            stocks_day = now - relativedelta(days=1)
 
+            if now.weekday() == 5: # 5 is Satuday, Week [0 - Monday, ..., 6 - Sunday]
+                stocks_day = now - relativedelta(days=1) # if today is Saturday => close prices from Friday
+            elif now.weekday() == 6:
+                stocks_day = now - relativedelta(days=2) # if todays if Sunday => close prices from Friday
+            elif now.weekday() == 0:
+                stocks_day = now - relativedelta(days=3) # if todays is Monday => close prices from Friday
+
+            stocks_day_to_string = stocks_day.strftime("%Y-%m-%d") # convert to string
+            
             # Format current date as ISO format
             start_date = pd.Timestamp(years_ago_to_string, tz="America/New_York").isoformat()
             end_date = pd.Timestamp(now_to_string, tz="America/New_York").isoformat()
@@ -113,16 +121,16 @@ else:
             eth_value = curr_eth * eth_price
 
             # calculating stocks and bonds values
-            stocks_yesterday = alpaca.get_barset(
+            stocks_before = alpaca.get_barset(
                 tickers_stocks,
                 '1D',
-                start = pd.Timestamp(yesterday_to_string, tz="America/New_York").isoformat(),
-                end = pd.Timestamp(yesterday_to_string, tz="America/New_York").isoformat()
+                start = pd.Timestamp(stocks_day_to_string, tz="America/New_York").isoformat(),
+                end = pd.Timestamp(stocks_day_to_string, tz="America/New_York").isoformat()
             ).df
             
             # parsing stocks_today df
-            agg_close_price = stocks_yesterday.iloc[0,3]
-            spy_close_price = stocks_yesterday.iloc[0,8]
+            agg_close_price = stocks_before.iloc[0,3]
+            spy_close_price = stocks_before.iloc[0,8]
 
             # calculating value of AGG and SPY
             spy_value = curr_spy * spy_close_price
