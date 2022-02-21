@@ -1,6 +1,13 @@
 # Real Estate Purchase Planner for California
 
-## This is an analysis of ...
+![App's prompts](pics/picture.JPG)
+
+## Description
+
+The aim of our project is to forecast clients’ portfolios to determine when they can afford real estate at their desired price. Based on user input, the app examines the client's portfolios (i.e., savings, cryptocurrency, stocks) and lendable factors (down payment).
+The app utilizes the Monte Carlo simulation to project clients’ portfolios, and it uses the future value equation to project the real estate market. These analyses will allow the application to tell the client in how many years they can afford a house at their desired price.
+
+---
 
 ## Technologies
 
@@ -19,9 +26,23 @@ PIL
 Monte Carlo simulation script (from MCForecastTools import MCSimulation)
 ```
 
+---
+
 ## Installation Guide
 
 Before running the application, first install the following dependencies:
+
+- running locally:
+
+```
+pip install streamlit
+```
+
+- running in cloud:
+
+```
+all needed dependencies are provided in the "environment.yml"
+```
 
 ## Usage
 
@@ -32,19 +53,41 @@ Before running the application, first install the following dependencies:
 
 3. Review the results. You can toggle the risk level to see if a higher risk level allows you to afford the down payment on the house sooner.
 
----
-
 ## Methods
 
+Monte Carlo simulation is used to predict approximate earnings from investments and savings. To see how this method works, please see the "MCForecastTools.py" script.
+
+## How it works
+
+1. The user answer on the questions in the sidebar of app:
+
+![App's prompts](pics/sidebar_1.JPG)
+
+![App's prompts](pics/sidebar_2.JPG)
+
+2. After that, the user have to wait when calculation is done
+
+![App's prompts](pics/spinner.JPG)
+
+3. As a results of calculation, the user will see message with congratulations or sorry message.
+
+![App's prompts](pics/result_1.JPG)
+
+4. As additional information, the user will see the current houses offers in the desired city
+
+On the map:
+
+![App's prompts](pics/map.JPG)
+
+And table:
+
+![App's prompts](pics/table.JPG)
+
 ---
-
-## Results
-
---
 
 ## Contributers
 
---
+---
 
 ## License
 
