@@ -14,8 +14,6 @@ from alpaca_trade_api.rest import TimeFrame
 st.set_page_config(page_title="Real Estate Purchase Planner in California", page_icon=":house:")
 st.image(Image.open('pics/picture.jpg'))
 
-# App title
-st.markdown('## Real Estate Purchase Planner')
 st.markdown('---')
 
 # Fist part of sidebar
