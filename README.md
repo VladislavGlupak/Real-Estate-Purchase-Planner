@@ -44,6 +44,14 @@ pip install streamlit
 all needed dependencies are provided in the "environment.yml"
 ```
 
+As a main part, please, provide secret keys in env file:
+
+```
+ALPACA_API_KEY = "YOUR_KEY"
+ALPACA_SECRET_KEY = "YOUR_KEY"
+RAPIDAPI_KEY = "YOUR_KEY"
+```
+
 ## Usage
 
 1. To determine how many years it will take to afford the down payment on your desired house price, click on this link:
