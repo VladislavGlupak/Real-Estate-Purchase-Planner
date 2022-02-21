@@ -10,90 +10,84 @@ from MCForecastTools import MCSimulation
 from PIL import Image
 from alpaca_trade_api.rest import TimeFrame
 
-# web page name
+# Web page name
 st.set_page_config(page_title="Real Estate Purchase Planner in California", page_icon=":house:")
 st.image(Image.open('pics/picture.jpg'))
 
-# app title
+# App title
 st.markdown('## Real Estate Purchase Planner')
 st.markdown('---')
 
-# fist part of sidebar
+# Fist part of sidebar
 st.sidebar.markdown("# Portfolio")
 
-# define the inputs
-savings = int(st.sidebar.text_input('Current savings, $', '10000'))
+# Define the inputs
+# portfolio
+savings = int(st.sidebar.text_input('Current savings, $', '10000')) # savings
 cont_monthly = int(st.sidebar.slider('Monthly contribution to the current savings, $', 0, 10000, 1000, step=100)) # min, max, default
-pf_risk_type = st.sidebar.radio('Portfolio Type?', ['Low risk', 'Medium risk', 'High risk'])
-curr_btc = float(st.sidebar.text_input('Number of BTC in your portfolio', '0'))
-curr_eth = float(st.sidebar.text_input('Number of ETH in your portfolio', '0'))
-curr_spy = float(st.sidebar.text_input('Number of SPY in your portfolio', '1'))
-curr_agg = float(st.sidebar.text_input('Number of AGG in your portfolio', '1'))
+pf_risk_type = st.sidebar.radio('Portfolio Type?', ['Low risk', 'Medium risk', 'High risk']) # portfolio type
+curr_btc = float(st.sidebar.text_input('Number of BTC in your portfolio', '0')) # number of BTC in the portfolio
+curr_eth = float(st.sidebar.text_input('Number of ETH in your portfolio', '0')) # number of ETH in the portfolio
+curr_spy = float(st.sidebar.text_input('Number of SPY in your portfolio', '1')) # number of SPY in the portfolio
+curr_agg = float(st.sidebar.text_input('Number of AGG in your portfolio', '1')) # number of AGG in the portfolio
 
 # desired house
 st.sidebar.markdown("# Desired house")
-total_price = int(st.sidebar.text_input('Desired house price $', '1500000'))
+total_price = int(st.sidebar.text_input('Desired house price $', '1500000')) # desired house price
 pct_down = float(st.sidebar.slider('Percent down on the house?', 0, 100, 20)) # min, max, default # divide by 100 later
-desired_city = st.sidebar.text_input('Desired city, state "example: San Francisco, CA"', 'San Francisco, CA')
+desired_city = st.sidebar.text_input('Desired city, state "example: San Francisco, CA"', 'San Francisco, CA') # desired city
 st.sidebar.markdown("# Time period")
 num_years = int(st.sidebar.slider('How many years?', 0, 50, 15, step=1)) # min, max, default
 
+# Checking if portfolio type is Low risk and (BTC or ETH = 0). Low risk doesn't contain the crypto
 if (pf_risk_type == "Low risk") and (curr_btc !=0 or curr_eth !=0):
-    st.markdown('### BTC and ETH should be ZERO!! (low risk only includes stocks)')
+    st.markdown('### BTC and ETH should be ZERO!! (low risk only includes stocks and bonds)')
 else:
-    if savings >= total_price:
+    if savings >= total_price: # checking if user has enougth money
         st.markdown(f'### You have enough money in savings alone to buy the house at ${total_price}!')
     else:
         # Load .env environment variables
         load_dotenv()
 
-        # Set API keys
+        # Alpaca API
+        # set API keys
         alpaca_api_key = os.getenv("ALPACA_API_KEY")
         alpaca_secret_key = os.getenv("ALPACA_SECRET_KEY")
         rapidapi_key = os.getenv("RAPIDAPI_KEY")
 
-        # Create the Alpaca API object
+        # create the Alpaca API object
         alpaca = tradeapi.REST(
             alpaca_api_key,
             alpaca_secret_key,
             api_version="v2")
 
-        # The Free Crypto API Call endpoint URLs for the held cryptocurrency assets
+        # Altrnative API
+        # the Free Crypto API Call endpoint URLs for the held cryptocurrency assets
         btc_url = "https://api.alternative.me/v2/ticker/Bitcoin/?convert=USD"
         eth_url = "https://api.alternative.me/v2/ticker/Ethereum/?convert=USD"
 
+        # RapidAPI - Zillow
+        # set query parameters for pulling map data (addresses from Zillow)
+        url = 'https://zillow-com1.p.rapidapi.com/propertyExtendedSearch' # url for search
+        query = {f'location': {desired_city}, 'home_type': 'Houses'}
+
+        # set type of data resource and security key
+        headers =  {
+        'x-rapidapi-host': 'zillow-com1.p.rapidapi.com',
+        'x-rapidapi-key': rapidapi_key
+        }
+
+        # If no errors, run the main part of app
         with st.spinner('### Please wait...'):
-
-            # Calculate dates
-            now = datetime.now() # end date
-            now_to_string = now.strftime("%Y-%m-%d") # convert end date to string
-            years_ago = now - relativedelta(years=num_years) # calculate start date
-            years_ago_to_string = years_ago.strftime("%Y-%m-%d") # convert end date to string
-
-            # date for stock and bonds (we are taking yesterday's close price)
-            stocks_day = now - relativedelta(days=1)
-
-            if now.weekday() == 5: # 5 is Satuday, Week [0 - Monday, ..., 6 - Sunday]
-                stocks_day = now - relativedelta(days=1) # if today is Saturday => close prices from Friday
-            elif now.weekday() == 6:
-                stocks_day = now - relativedelta(days=2) # if today if Sunday => close prices from Friday
-            elif now.weekday() == 0:
-                stocks_day = now - relativedelta(days=3) # if today is Monday => close prices from Friday
-
-            stocks_day_to_string = stocks_day.strftime("%Y-%m-%d") # convert to string
-            
-            # Format current date as ISO format
-            start_date = pd.Timestamp(years_ago_to_string, tz="America/New_York").isoformat()
-            end_date = pd.Timestamp(now_to_string, tz="America/New_York").isoformat()
 
             # Set the tickers (Alpaca's API standart)
             tickers_stocks = ["SPY", "AGG"]
             tickers_crypto = ["BTCUSD", "ETHUSD"]
 
-            # Portfolio types
-            #Low risk = 100% stocks (SPY, AGG)
-            #Medium risk = 80% stocks (SPY, AGG), 20% crypto (ETH, BTC)
-            #High risk = 40% stocks (SPY, AGG), 60% crypto (ETH, BTC)
+            # Portfolio types and portions of assets for each type
+            # Low risk = 100% stocks (SPY, AGG)
+            # Medium risk = 80% stocks (SPY, AGG), 20% crypto (ETH, BTC)
+            # High risk = 40% stocks (SPY, AGG), 60% crypto (ETH, BTC)
 
             low_risk = [.00, .00, .50, .50]
             medium_risk = [.10, 0.10, .40, 0.40]
@@ -108,19 +102,44 @@ else:
             if pf_risk_type == "High risk":
                 weight = high_risk
 
+            # Calculate dates
+            now = datetime.now() # end date
+            now_to_string = now.strftime("%Y-%m-%d") # convert end date to string
+            # dates for historical information
+            years_ago = now - relativedelta(years=num_years) # calculate start date
+            years_ago_to_string = years_ago.strftime("%Y-%m-%d") # convert end date to string
+
+            # date for stock and bonds (we are taking yesterday's close price)
+            stocks_day = now - relativedelta(days=1)
+
+            # check if today is not a weekend or not a Monday. We are taking close prices from previous trading day
+            if now.weekday() == 5: # 5 is Satuday, Week [0 - Monday, ..., 6 - Sunday]
+                stocks_day = now - relativedelta(days=1) # if today is Saturday => close prices from Friday
+            elif now.weekday() == 6:
+                stocks_day = now - relativedelta(days=2) # if today if Sunday => close prices from Friday
+            elif now.weekday() == 0:
+                stocks_day = now - relativedelta(days=3) # if today is Monday => close prices from Friday
+
+            stocks_day_to_string = stocks_day.strftime("%Y-%m-%d") # convert to string
+            
+            # format current date as ISO format for getting historical information
+            start_date = pd.Timestamp(years_ago_to_string, tz="America/New_York").isoformat()
+            end_date = pd.Timestamp(now_to_string, tz="America/New_York").isoformat()
+
             # Using the Python requests library, make an API call to access the current price of BTC and Eth
             btc_response = requests.get(btc_url).json()
             eth_response = requests.get(eth_url).json()
 
-            # Navigate the BTC response object to access the current price of BTC and Eth
+            # navigate the BTC response object to access the current price of BTC and Eth
             btc_price = btc_response["data"]["1"]["quotes"]["USD"]["price"]
             eth_price = eth_response["data"]["1027"]["quotes"]["USD"]["price"]
 
-            # Compute the current value of the BTC holding 
+            # compute the current value of the BTC holding 
             btc_value = curr_btc * btc_price
             eth_value = curr_eth * eth_price
 
-            # calculating stocks and bonds values
+            # Calculating stocks and bonds values (last close prices)
+            # Run Alpaca's call
             stocks_before = alpaca.get_barset(
                 tickers_stocks,
                 '1D',
@@ -138,7 +157,7 @@ else:
             total_stocks_bonds = agg_value + spy_value
 
             # Collecting data for MC simulation
-            # Get closing prices for SPY and AGG
+            # get closing prices for SPY and AGG
             stocks = alpaca.get_barset(
                 tickers_stocks,
                 '1D',
@@ -147,7 +166,7 @@ else:
                 limit = 1000
             ).df
 
-            # Get closing prices for BTC and ETH
+            # get closing prices for BTC and ETH
             btc = alpaca.get_crypto_bars(
                 tickers_crypto[0],
                 TimeFrame.Day,
@@ -164,7 +183,7 @@ else:
                 limit=1000
             ).df
 
-            # Formatting and concat all dataframes
+            # formatting and concat all dataframes
             btc = btc.drop(columns=['trade_count','exchange', 'vwap'])
             eth = eth.drop(columns=['trade_count','exchange', 'vwap'])
 
@@ -178,7 +197,8 @@ else:
             concat_df = pd.concat([btc, eth, stocks], verify_integrity=True, axis=1) # concatinate all dfs
             concat_df = concat_df.dropna() # drop N/A
 
-            # Run Monte Carlo simulation for df c
+            # Run Monte Carlo simulation for concat_df
+            # set parameters fir simulation
             simulation = MCSimulation(
                 portfolio_data=concat_df,
                 weights=weight,
@@ -224,17 +244,7 @@ else:
                 st.markdown('This data is for informational purposes only.')
             st.markdown('---')
 
-            # Retrieve mapdata ---
-
-            url = 'https://zillow-com1.p.rapidapi.com/propertyExtendedSearch' # url for search
-            query = {f'location': {desired_city}, 'home_type': 'Houses'}
-
-            # set type of data resource and security key
-            headers =  {
-            'x-rapidapi-host': 'zillow-com1.p.rapidapi.com',
-            'x-rapidapi-key': rapidapi_key
-            }
-
+            # Retrieve mapdata - addresses with RapidAPI - Zillow ---
             # perform the GET request
             response = requests.request('GET', url, headers=headers, params=query)
             response_json = response.json() # convert response to json
@@ -278,4 +288,3 @@ else:
 
                     # output table with addresses
                     df_filtred_by_price_drop_lat_lon
-
