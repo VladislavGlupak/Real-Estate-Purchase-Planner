@@ -4,7 +4,7 @@
 
 ## Description
 
-The aim of our project is to forecast clients’ portfolios to determine when they can afford real estate at their desired price. Based on user input, the app examines the client's portfolios (i.e., savings, cryptocurrency, stocks) and lendable factors (down payment).
+The aim of the project is to forecast clients’ portfolios to determine when they can afford real estate at their desired price. Based on user input, the app examines the client's portfolios (i.e., savings, cryptocurrency, stocks) and lendable factors (down payment).
 The app utilizes the Monte Carlo simulation to project clients’ portfolios, and it uses the future value equation to project the real estate market. These analyses will allow the application to tell the client in how many years they can afford a house at their desired price.
 
 ---
