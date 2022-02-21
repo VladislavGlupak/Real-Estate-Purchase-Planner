@@ -42,7 +42,7 @@ Before running the application, first install the following dependencies:
 
 ```
 - pip install streamlit
-- streamlit run app.py
+- streamlit run app.py (command for running app. Run it from the app folder.)
 ```
 
 - running in cloud:
