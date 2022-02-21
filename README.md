@@ -1,6 +1,6 @@
 # Real Estate Purchase Planner for California
 
-![App's prompts](pics/picture.JPG)
+![App's prompts](pics/picture.jpg)
 
 ## Description
 
