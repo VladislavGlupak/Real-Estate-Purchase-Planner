@@ -41,6 +41,7 @@ Before running the application, first install the following dependencies:
 - running locally:
 
 ```
+- git pull the project
 - pip install streamlit
 - streamlit run app.py (command for running app. Run it from the app folder.)
 ```
