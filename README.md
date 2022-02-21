@@ -88,9 +88,13 @@ And table:
 ## Contributers
 
 Vladislav Glupak - [GitHub](https://github.com/VladislavGlupak)
+
 Catherine Croft - [GitHub](https://github.com/ccroft6)
+
 Amanda Hum - [GitHub](https://github.com/amandahum18)
+
 Magdalena Švimberská - [GitHub](https://github.com/MagdaSvim)
+
 Thomas Brierton - [GitHub](https://github.com/ThomasBrierton)
 
 ---
