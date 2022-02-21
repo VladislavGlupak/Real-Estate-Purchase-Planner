@@ -269,6 +269,7 @@ else:
                     st.map(df_filtred_by_price) # generate map
                     st.markdown("### Houses we could find for you based on today's data:")
                     st.markdown("Curret price is 20% range based on desired price. Future price is calculated with interest rate 3.8%.")
+                    st.write("Pls, refer to [Zillow](https://www.zillow.com)")
                     df_filtred_by_price_drop_lat_lon = df_filtred_by_price.drop(columns=['lon', 'lat']) # drop extra columns
 
                     # calculate future price
