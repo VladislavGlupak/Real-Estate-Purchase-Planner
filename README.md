@@ -41,7 +41,8 @@ Before running the application, first install the following dependencies:
 - running locally:
 
 ```
-pip install streamlit
+- pip install streamlit
+- streamlit run app.py
 ```
 
 - running in cloud:
