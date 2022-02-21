@@ -26,6 +26,12 @@ PIL
 Monte Carlo simulation script (from MCForecastTools import MCSimulation)
 ```
 
+The app utilize APIs:
+
+1. [Alpaca API](https://alpaca.markets) - for pulling stocks, bonds and crypto historical prices
+2. [Alternative](https://alternative.me/crypto/api/) - for pulling real time crypto prices
+3. [Rapid API - Zillow](https://rapidapi.com/apimaker/api/zillow-com1/) - for houses data
+
 ---
 
 ## Installation Guide
