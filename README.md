@@ -83,7 +83,7 @@ Monte Carlo simulation is used to predict approximate earnings from investments 
 
 2. After that, the user have to wait when calculation is done
 
-![App's prompts](pics/spinner.JPG)
+![App's prompts](pics/spinner_.JPG)
 
 3. As a results of calculation, the user will see message with congratulations or sorry message.
 
