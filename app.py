@@ -33,7 +33,7 @@ curr_agg = float(st.sidebar.text_input('Number of AGG in your portfolio', '1')) 
 st.sidebar.markdown("# Desired house")
 total_price = int(st.sidebar.text_input('Desired house price $', '1500000')) # desired house price
 pct_down = float(st.sidebar.slider('Percent down on the house?', 0, 100, 20)) # min, max, default # divide by 100 later
-desired_city = st.sidebar.text_input('Desired city, state "example: San Francisco, CA"', 'San Francisco, CA') # desired city
+desired_city = st.sidebar.text_input('Desired city, state "Example: San Francisco, CA"', 'San Francisco, CA') # desired city
 st.sidebar.markdown("# Time period")
 num_years = int(st.sidebar.slider('How many years?', 0, 50, 15, step=1)) # min, max, default
 
@@ -42,7 +42,7 @@ if (pf_risk_type == "Low risk") and (curr_btc !=0 or curr_eth !=0):
     st.markdown('### BTC and ETH should be ZERO!! (low risk only includes stocks and bonds)')
 else:
     if savings >= total_price: # checking if user has enougth money
-        st.markdown(f'### You have enough money in savings alone to buy the house at ${total_price}!')
+        st.markdown(f'### You have enough money in savings alone to buy the house at ${total_price:,.2f}!')
     else:
         # Load .env environment variables
         load_dotenv()
@@ -224,12 +224,12 @@ else:
             if result >= total_price:
                 st.markdown('### Result:')
                 st.markdown(f'### Congratulations! You will be able to buy a house with desired price ${total_price:,} in {num_years} years. :)))')
-                st.markdown(f'### You will have from investing and savings ${result:,.2f}.')
+                st.markdown(f'### You will have ${result:,.2f} from investing and savings.')
                 st.markdown('This data is for informational purposes only.')
             elif result >= amount_needed:
                 st.markdown('### Result:')
                 st.markdown(f'### Congratulations! You can afford the {pct_down}% down payment on a house with desired price of ${total_price:,} in {num_years} years. :)))')
-                st.markdown(f'### You will have from investing and savings ${result:,.2f}.')
+                st.markdown(f'### You will have ${result:,.2f} from investing and savings.')
                 st.markdown(
                     f'''### Make sure that you continue to save enough to pay the average monthly cost of ${monthly_payment_after_dp:,.2f}. 
                     * Calculated for a 30 year mortgage period - not including interest rate and taxes.'''
@@ -238,7 +238,7 @@ else:
             else:
                 st.markdown('### Result:')
                 st.markdown(f'### Sorry! You need more time or higher portfolio to buy a house in {num_years} years. :(((')
-                st.markdown(f'### You will have from investing and savings ${result:,.2f}.')
+                st.markdown(f'### You will have ${result:,.2f} from investing and savings.')
                 st.markdown('This data is for informational purposes only.')
             st.markdown('---')
 
@@ -250,11 +250,11 @@ else:
             # check if app recieved error code
             if int(response.status_code) != 200:
                 st.markdown(f"### Approximate location of the houses in {desired_city}")
-                st.markdown("Sorry! We couldn't get any response from server. Try one more time.")
+                st.markdown("Sorry! We couldn't get any response from the server. Try one more time.")
             else:
                 if len(response_json) == 0: # check if json doesn't contain requested data
                     st.markdown(f"### Approximate location of the houses in {desired_city}")
-                    st.markdown("We did not find any data matching your request...")
+                    st.markdown("We did not find any data that matches your request...")
                 else:
                 # pull desired data from json
                     df = pd.DataFrame()
@@ -276,8 +276,8 @@ else:
                     st.markdown(f"### Approximate locations of the houses in {desired_city}")
                     st.map(df_filtred_by_price) # generate map
                     st.markdown("### Houses we could find for you based on today's data:")
-                    st.markdown("Curret price is 20% range based on desired price. Future price is calculated with interest rate 3.8%.")
-                    st.write("Pls, refer to [Zillow](https://www.zillow.com)")
+                    st.markdown("The current price results are within a 20% range of your desired price. The future price is calculated with an interest rate of 3.8%.") # 3.8% is the current reported average increase
+                    st.write("Please refer to [Zillow](https://www.zillow.com) for more information.")
                     df_filtred_by_price_drop_lat_lon = df_filtred_by_price.drop(columns=['lon', 'lat']) # drop extra columns
 
                     # calculate future price
