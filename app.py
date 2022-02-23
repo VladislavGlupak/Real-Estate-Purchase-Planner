@@ -108,7 +108,7 @@ else:
             years_ago_to_string = years_ago.strftime("%Y-%m-%d") # convert end date to string
 
             # date for stock and bonds (we are taking yesterday's close price)
-            stocks_day = now - relativedelta(days=4)
+            stocks_day = now - relativedelta(days=1)
 
             # check if today is not a weekend or not a Monday. We are taking close prices from previous trading day
             if now.weekday() == 5: # 5 is Satuday, Week [0 - Monday, ..., 6 - Sunday]
