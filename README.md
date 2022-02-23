@@ -43,7 +43,9 @@ To run the application, first complete the following steps:
 1. Clone the repository: `git clone https://github.com/VladislavGlupak/Real-Estate-Purchase-Planner.git`
 
 2. Create an Alpaca API and Rapid API account to obtain your own set of "keys":
+   
    [Alpaca API](https://alpaca.markets/)
+   
    [Rapid API](https://rapidapi.com/)
 
 3. Add your keys to the "sample.env" file:
@@ -56,7 +58,7 @@ To run the application, first complete the following steps:
 
 4. Install Streamlit: `pip install streamlit`
 
-5. Type this code into your terminal to run the app in a web browser: `streamlit run app.py` (Be sure to run it from the app folder!)
+5. Type this code into your terminal to run the app in a web browser: `streamlit run app.py` (Make sure to run it from the folder that contains the "app.py" file!)
 ```
 Any other needed dependencies are provided in the "environment.yml"
 ```
@@ -73,9 +75,9 @@ Any other needed dependencies are provided in the "environment.yml"
    ```
    Then, change the name of the file to ".env" (the file should disappear)
 
-3. Create a Streamlit account: [Streamlit](https://streamlit.io/)
+3. Create a [Streamlit](https://streamlit.io/) account
 
-4. Go to the Streamlit share page [Share](share.streamlit.io) to connect to the app 
+4. Go to the Streamlit [Share](share.streamlit.io) page to connect to the app 
 ```
 Any other needed dependencies are provided in the "environment.yml"
 ```
