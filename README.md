@@ -38,14 +38,14 @@ The app utilizes APIs:
 
 To run the application, first complete the following steps:
 
-**Option 1 - running locally:**
+**Option 1 - Running locally:**
 
 1. Clone the repository: `git clone https://github.com/VladislavGlupak/Real-Estate-Purchase-Planner.git`
 
 2. Create an Alpaca API and Rapid API account to obtain your own set of "keys":
    
    [Alpaca API](https://alpaca.markets/)
-   
+
    [Rapid API](https://rapidapi.com/)
 
 3. Add your keys to the "sample.env" file:
@@ -63,7 +63,7 @@ To run the application, first complete the following steps:
 Any other needed dependencies are provided in the "environment.yml"
 ```
 
-**Option 2 - running in the cloud:**
+**Option 2 - Running in the cloud:**
 
 1. Fork the repository from this link: [GitHub](https://github.com/VladislavGlupak/Real-Estate-Purchase-Planner)
 
