@@ -147,7 +147,7 @@ else:
             
             # parsing stocks_today df
             agg_close_price = stocks_before.iloc[0,3]
-            spy_close_price = stocks_before.iloc[0,8]
+            spy_close_price = stocks_before.iloc[1,3]
 
             # calculating value of AGG and SPY
             spy_value = curr_spy * spy_close_price
@@ -156,8 +156,16 @@ else:
 
             # Collecting data for MC simulation
             # get closing prices for SPY and AGG
-            stocks = alpaca.get_bars(
-                tickers_stocks,
+            stocks_spy = alpaca.get_bars(
+                tickers_stocks[0],
+                TimeFrame.Day,
+                start = start_date,
+                end = end_date,
+                limit = 1000
+            ).df
+            
+            stocks_agg = alpaca.get_bars(
+                tickers_stocks[1],
                 TimeFrame.Day,
                 start = start_date,
                 end = end_date,
@@ -181,18 +189,27 @@ else:
                 limit=1000
             ).df
 
-            # formatting and concat all dataframes
+            # formatting and concat all dataframes: crypto
             btc = btc.drop(columns=['trade_count','exchange', 'vwap'])
             eth = eth.drop(columns=['trade_count','exchange', 'vwap'])
 
             btc = pd.concat([btc], keys=['BTC'], axis=1) # add layer
             eth = pd.concat([eth], keys=['ETH'], axis=1)
-
-            stocks = stocks.reset_index(drop=True) # reset index and drop index column
+            
             btc = btc.reset_index(drop=True)
             eth = eth.reset_index(drop=True)
-
-            concat_df = pd.concat([btc, eth, stocks], verify_integrity=True, axis=1) # concatinate all dfs
+            
+            # formatting and concat all dataframes: stocks and bonds
+            stocks_agg = stocks_agg.drop(columns=['trade_count', 'vwap'])
+            stocks_spy = stocks_spy.drop(columns=['trade_count', 'vwap'])
+            stocks_agg = pd.concat([stocks_agg], keys=['AGG'], axis=1) # add layer
+            stocks_spy = pd.concat([stocks_spy], keys=['SPY'], axis=1)
+            
+            stocks_agg = stocks_agg.reset_index(drop=True)
+            stocks_spy = stocks_spy.reset_index(drop=True)
+            
+            # concatinate crypto, stocks and bonds
+            concat_df = pd.concat([btc, eth, stocks_spy, stocks_agg], verify_integrity=True, axis=1) # concatinate all dfs
             concat_df = concat_df.dropna() # drop N/A
 
             # Run Monte Carlo simulation for concat_df
