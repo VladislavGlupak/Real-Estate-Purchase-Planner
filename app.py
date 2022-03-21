@@ -156,9 +156,9 @@ else:
 
             # Collecting data for MC simulation
             # get closing prices for SPY and AGG
-            stocks = alpaca.get_barset(
+            stocks = alpaca.get_bars(
                 tickers_stocks,
-                '1D',
+                TimeFrame.Day,
                 start = start_date,
                 end = end_date,
                 limit = 1000
