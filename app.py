@@ -138,9 +138,9 @@ else:
 
             # Calculating stocks and bonds values (last close prices)
             # Run Alpaca's call
-            stocks_before = alpaca.get_barset(
+            stocks_before = alpaca.get_bars(
                 tickers_stocks,
-                '1D',
+                TimeFrame.Day,
                 start = pd.Timestamp(stocks_day_to_string, tz="America/New_York").isoformat(),
                 end = pd.Timestamp(stocks_day_to_string, tz="America/New_York").isoformat()
             ).df
