@@ -122,7 +122,7 @@ else:
             
             # format current date as ISO format for getting historical information
             start_date = pd.Timestamp(years_ago_to_string, tz="America/New_York").isoformat()
-            end_date = pd.Timestamp(now_to_string, tz="America/New_York").isoformat()
+            end_date = pd.Timestamp(stocks_day_to_string, tz="America/New_York").isoformat()
 
             # Using the Python requests library, make an API call to access the current price of BTC and Eth
             btc_response = requests.get(btc_url).json()
