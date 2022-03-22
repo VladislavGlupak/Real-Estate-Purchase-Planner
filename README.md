@@ -84,10 +84,7 @@ Any other needed dependencies are provided in the "environment.yml"
 
 ## Usage - Overview 
 
-1. To determine how many years it will take to afford a house or at least a down payment on your desired house price, go to the Streamlit web link via your local machine or the cloud:
-   `streamlit run app.py`
-   or
-   [Real Estate Purchase Planner](https://share.streamlit.io/vladislavglupak/real-estate-purchase-planner/main/app.py)
+1. To determine how many years it will take to afford a house or at least a down payment on your desired house price, go to the Streamlit web link via your local machine: `streamlit run app.py`
    
 2. Read the questions in the side bar on the left and enter your information
 
