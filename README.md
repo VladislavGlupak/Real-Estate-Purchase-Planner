@@ -7,7 +7,6 @@
 The aim of the project is to forecast clients’ portfolios to determine when they can afford real estate at their desired price. Based on user input, the app examines the clients' portfolios (i.e., savings, cryptocurrency, stocks, bonds) and the down payment they are willing to pay.
 The app utilizes the Monte Carlo simulation to project clients’ portfolios, and it uses the future value equation to project the real estate market. These analyses will allow the application to tell the client in how many years they can afford a house at their desired price.
 
-### LAUNCH APP: https://share.streamlit.io/vladislavglupak/real-estate-purchase-planner/main/app.py
 
 ---
 
