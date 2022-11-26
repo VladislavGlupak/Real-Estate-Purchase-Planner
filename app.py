@@ -10,6 +10,11 @@ from MCForecastTools import MCSimulation
 from PIL import Image
 from alpaca_trade_api.rest import TimeFrame
 
+import sys
+import certifi
+
+os.environ['REQUESTS_CA_BUNDLE'] = os.path.join(os.path.dirname(sys.argv[0]), certifi.where())
+
 # Web page name
 st.set_page_config(page_title="Real Estate Purchase Planner in California", page_icon=":house:")
 st.image(Image.open('pics/picture.jpg'))
